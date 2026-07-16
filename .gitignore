@@ -1,0 +1,6 @@
+# Local deployment state
+.netlify/
+
+# Common local files
+.DS_Store
+Thumbs.db

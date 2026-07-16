@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" class="ui-preinit">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVAR Identification Atlas</title>
+  <meta
+    name="description"
+    content="A visual guide to how major SVAR identification methods add information to one common rotation problem, with literature bridges for new researchers."
+  >
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="styles.css?v=20260715-section-audit1">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="loading-screen" role="status" aria-live="polite" aria-label="Loading the SVAR illustration">
+    <div class="loader loader--atlas">
+      <p class="loader__eyebrow">Preparing the common identification framework</p>
+      <h1 class="loader__headline">Loading the SVAR illustration</h1>
+      <p class="loader__copy">
+        Drawing the interest-rate and S&amp;P 500 histories before the rotations enter.
+      </p>
+      <div class="loader__chart-card">
+        <canvas id="loader-time-series" aria-label="Animated loading plot for the interest rate and S&amp;P 500"></canvas>
+        <div class="loader__legend" aria-hidden="true">
+          <span><i class="loader__swatch loader__swatch--rate"></i>Interest rate</span>
+          <span><i class="loader__swatch loader__swatch--sp500"></i>S&amp;P 500</span>
+        </div>
+      </div>
+      <div class="loader__progress" aria-hidden="true">
+        <div class="loader__progress-meta">
+          <span id="loader-status-text">Loading illustrative time series</span>
+          <span id="loader-progress-text">0%</span>
+        </div>
+        <div class="loader__progress-track">
+          <span id="loader-progress-bar"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="page-shell">
+    <nav id="atlas-timeline" class="atlas-timeline" aria-label="Atlas sequence"></nav>
+
+    <section id="introduction" class="hero atlas-hero" data-reveal>
+      <div class="hero__content">
+        <span class="eyebrow">SVAR Identification Atlas</span>
+        <h1>Why one fitted VAR can support many structural stories</h1>
+        <p class="hero__lede">
+          Estimating a VAR gives forecast surprises and their covariance, but it does not by itself tell us which
+          surprise is a monetary-policy shock or a stock-market shock. This Atlas holds one deliberately simple
+          two-variable VAR fixed, samples 100 sign-normalized, covariance-equivalent shock decompositions, and asks what extra
+          information each identification method contributes. The goal is to make the identifying assumption and
+          the kind of answer it delivers visible.
+        </p>
+        <div id="hero-method-links"></div>
+      </div>
+      <aside class="hero-meta">
+        <div class="hero-meta__stat">
+          <span class="hero-meta__label">Running example</span>
+          <span class="hero-meta__value">Interest rate and S&amp;P 500</span>
+        </div>
+        <div class="hero-meta__stat">
+          <span class="hero-meta__label">Structural shocks</span>
+          <span class="hero-meta__value">Monetary policy and stock-market shocks</span>
+        </div>
+        <div class="hero-meta__stat">
+          <span class="hero-meta__label">Core idea</span>
+          <span class="hero-meta__value">Keep the empirical example fixed and change the identifying objective.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="setup-framework" class="section-card setup-framework" data-reveal>
+      <div class="section-card__header">
+        <span class="section-eyebrow">Common experiment</span>
+        <h2>From forecast surprises to identified shocks</h2>
+      </div>
+      <div class="section-card__body">
+        <div class="setup-intro">
+          <p>
+            Read the setup as a controlled experiment. We estimate one reduced-form VAR, keep everything it learns
+            from the data fixed, and vary only the structural interpretation. That separation is the central idea
+            behind every method page.
+          </p>
+          <div class="setup-pipeline" aria-label="Atlas workflow">
+            <div>
+              <span class="setup-pipeline__step">1. Estimate</span>
+              <strong>Learn the reduced-form dynamics.</strong>
+              <p>The VAR produces forecast errors, lag dynamics, and a residual covariance matrix.</p>
+            </div>
+            <div>
+              <span class="setup-pipeline__step">2. Rotate</span>
+              <strong>Expose what covariance leaves unresolved.</strong>
+              <p>Each angle gives different candidate shocks and IRFs while fitting the same residual covariance.</p>
+            </div>
+            <div>
+              <span class="setup-pipeline__step">3. Identify</span>
+              <strong>Add information the VAR did not supply.</strong>
+              <p>A timing, sign, historical, proxy, variance, or distributional idea filters or selects rotations.</p>
+            </div>
+          </div>
+          <div class="method-summary-strip" aria-label="Three terms used throughout the Atlas">
+            <div>
+              <span>Reduced-form shock</span>
+              <strong><span class="math-token">u<sub>t</sub></span> is an estimated forecast error, not yet a named economic shock.</strong>
+            </div>
+            <div>
+              <span>Impact matrix</span>
+              <strong><span class="math-token">B</span> maps structural shocks into the observed VAR forecast errors.</strong>
+            </div>
+            <div>
+              <span>Identification</span>
+              <strong>Extra assumptions or information orient <span class="math-token">B</span> and give its columns meaning.</strong>
+            </div>
+          </div>
+          <div class="setup-callout context-note">
+            <span class="prose-label">What stays fixed</span>
+            <span>
+              The data, lag order, estimated VAR coefficients, and residual covariance do not change when you turn
+              the dial. Only the candidate structural decomposition changes.
+            </span>
+          </div>
+          <div class="setup-callout context-note">
+            <span class="prose-label">Illustrative data</span>
+            <span>
+              The browser-facing series are transformed illustrative values calibrated to the running example.
+              They support intuition and method comparison; they are not an empirical monetary-policy result.
+            </span>
+          </div>
+        </div>
+
+        <article id="setup-rotation" class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">1. Observed Data</span>
+            <h3>Observed data become VAR inputs, not structural shocks.</h3>
+            <p>
+              The interest-rate series gives the policy side of the example. The S&amp;P 500 series gives a stock-market side. For the VAR we work with the rate and monthly S&amp;P 500 log growth, but the first picture keeps the original market level visible too.
+            </p>
+            <p class="chart-note reader-cue">Read this chart as the visible observed history before the VAR converts the series into forecast errors.</p>
+          </div>
+          <div class="plot-card plot-card--wide">
+            <canvas id="setup-time-series-chart" aria-label="Interest-rate and S&amp;P 500 time series"></canvas>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--balanced">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">2. Reduced-Form VAR(4)</span>
+            <h3>The VAR turns lagged data into forecast errors, but not economic labels.</h3>
+            <p>
+              A VAR(4) is a compact forecasting system for the two observed variables. "4" means each equation uses four monthly lags of the interest rate and four monthly lags of S&amp;P 500 log growth.
+            </p>
+            <div class="math-card">
+              <span class="math-card__label">Reduced-form VAR(4)</span>
+              <div class="math-card__formula">
+                y<sub>t</sub> = c + A<sub>1</sub>y<sub>t-1</sub> + A<sub>2</sub>y<sub>t-2</sub> + A<sub>3</sub>y<sub>t-3</sub> + A<sub>4</sub>y<sub>t-4</sub> + u<sub>t</sub>
+              </div>
+              <p class="math-card__note">The residual <span class="math-token">u<sub>t</sub></span> is whatever the lagged system did not predict.</p>
+            </div>
+            <p>
+              These <span class="math-token">u<sub>t</sub></span> shocks are useful, but they are not yet structural. They are still mixtures of the two deeper shocks we want to think about.
+            </p>
+            <p>The chart shows what the VAR did not predict. These residuals are the objects the SVAR will decompose.</p>
+          </div>
+          <div class="plot-card plot-card--fill">
+            <canvas id="setup-residual-chart" aria-label="Reduced-form VAR residual shocks"></canvas>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">3. Structural Mixtures</span>
+            <h3>The same forecast errors can be generated by many structural decompositions.</h3>
+            <p>
+              We assume there is a true impact matrix <span class="math-token">B<sub>0</sub></span>. It maps two
+              structural shocks, <span class="math-token">&epsilon;<sub>policy,t</sub></span> and
+              <span class="math-token">&epsilon;<sub>stock,t</sub></span>, into the reduced-form interest-rate and
+              S&amp;P 500 residuals <span class="math-token">u<sub>t</sub></span>. The first shock is the monetary
+              policy shock; the second is the stock-market shock that we want to disentangle from it.
+            </p>
+             <div class="math-card">
+              <span class="math-card__label">SVAR mixing equation</span>
+              <div class="math-card__formula matrix-eq">
+                <span class="matrix-bracket"><span>u<sub>rate,t</sub></span><span>u<sub>S&amp;P,t</sub></span></span>
+                <span>=</span>
+                <span class="matrix-bracket matrix-bracket--square"><span>b<sub>11</sub></span><span>b<sub>12</sub></span><span>b<sub>21</sub></span><span>b<sub>22</sub></span></span>
+                <span class="matrix-bracket"><span>&epsilon;<sub>policy,t</sub></span><span>&epsilon;<sub>stock,t</sub></span></span>
+              </div>
+              <p class="matrix-note math-card__note">Rows are reduced-form residuals. Columns are structural shocks. Thus <span class="math-token">b<sub>12</sub></span> is the impact of the stock-market shock on the interest-rate residual, while <span class="math-token">b<sub>21</sub></span> is the impact of the policy shock on the S&amp;P residual.</p>
+            </div>
+            <p>
+              The goal is to estimate <span class="math-token">B<sub>0</sub></span> and recover the true structural shocks <span class="math-token">&epsilon;<sub>t</sub> = B<sub>0</sub><sup>-1</sup>u<sub>t</sub></span>. 
+            </p>
+            <p> 
+              We do not observe the structural shocks directly, so we normalize their covariance to identity:
+              <span class="math-token">E[&epsilon;<sub>t</sub>&epsilon;<sub>t</sub>'] = I</span>. This says they are
+              mutually uncorrelated and each has unit variance. The unit-variance convention fixes shock scale; it does not
+              fix the columns' economic labels or signs.
+            </p>
+            <p>
+              That normalization is not enough to pin down the shocks uniquely. There are infinitely many ways to split up
+              <span class="math-token">u<sub>t</sub></span> into candidate uncorrelated shocks
+              <span class="math-token">e<sub>t</sub>(&theta;) = B(&theta;)<sup>-1</sup>u<sub>t</sub></span>. The derivation below
+              shows why the same reduced-form covariance is compatible with many rotated decompositions.
+            </p>
+            <div class="math-stack">
+              <div class="math-card math-card--accent">
+                <span class="math-card__label">Why covariance does not choose the structural shocks</span>
+                <p>
+                  <span class="derivation-step__label">1. Factor the residual covariance.</span> Let
+                  <span class="math-token">&Sigma;<sub>u</sub> = E[u<sub>t</sub>u<sub>t</sub>']</span>. Choose any
+                  convenient factor <span class="math-token">P</span>, such as a Cholesky factor, with
+                  <span class="math-token">&Sigma;<sub>u</sub> = PP'</span>.
+                </p>
+                <div class="math-card__formula equation-stack-inline">
+                  <span class="math-token">&Sigma;<sub>u</sub> = PP'</span>
+                </div>
+                <p>
+                  <span class="derivation-step__label">2. Rotate that factor.</span> For an orthogonal rotation
+                  <span class="math-token">R(&theta;)</span>, define
+                  <span class="math-token">B(&theta;) = PR(&theta;)</span>. Because
+                  <span class="math-token">R(&theta;)R(&theta;)' = I</span>, every rotated impact matrix reproduces
+                  exactly the same residual covariance.
+                </p>
+                <div class="math-card__formula equation-stack-inline">
+                  <span class="math-token">B(&theta;)B(&theta;)' = PR(&theta;)R(&theta;)'P' = PP' = &Sigma;<sub>u</sub></span>
+                </div>
+                <p>
+                  <span class="derivation-step__label">3. Recover a different candidate shock pair.</span> Each rotation gives
+                  <span class="math-token">e<sub>t</sub>(&theta;) = R(&theta;)'P<sup>-1</sup>u<sub>t</sub></span>, and
+                  every pair has identity covariance.
+                </p>
+                <div class="math-card__formula equation-stack-inline">
+                  <span class="math-token">E[e<sub>t</sub>(&theta;)e<sub>t</sub>(&theta;)'] = I</span>
+                </div>
+                <p class="matrix-note math-card__note">
+                  <span class="prose-label">Identification is the missing step</span>
+                  Covariance tells us which rotations fit, but
+                  economic or statistical information must tell us which columns deserve structural labels.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">4. Rotate The Shocks</span>
+            <h3>Turning the dial changes the structural story, not the fitted VAR.</h3>
+            <p>
+              Use the rotation slider to choose an angle <span class="math-token">&theta;</span>. Each angle defines a
+              candidate impact matrix <span class="math-token">B(&theta;)</span> and therefore a candidate decomposition
+              <span class="math-token">e<sub>t</sub>(&theta;) = B(&theta;)<sup>-1</sup>u<sub>t</sub></span>. No matter
+              which angle you pick, the recovered shocks remain uncorrelated. This is the key identification problem:
+              the uncorrelated-shocks assumption alone leaves infinitely many admissible candidates.
+            </p>
+            <p class="chart-note reader-cue">Move the dial to see the same reduced-form residuals become different candidate structural shocks.</p>
+          </div>
+          <div class="rotation-lab">
+            <div id="setup-rotation-control" class="rotation-control-slot"></div>
+            <div id="setup-mixing-diagram" class="mixing-diagram" aria-live="polite"></div>
+            <div class="scatter-grid">
+              <div class="plot-card">
+                <canvas id="setup-reduced-scatter" aria-label="Reduced-form shock scatter plot"></canvas>
+              </div>
+              <div class="plot-card">
+                <canvas id="setup-structural-scatter" aria-label="Recovered candidate shock scatter plot"></canvas>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">5. Rotate The IRFs</span>
+            <h3>Every candidate impact matrix implies its own structural IRFs.</h3>
+            <p>
+              Impulse response functions are a visual summary of the structural moving-average representation. They show
+              how each variable moves over subsequent horizons after a one-time structural shock today. The bridge from
+              the fitted VAR to these responses is the moving-average representation.
+            </p>
+            <div class="math-card derivation-card">
+              <span class="math-card__label">From VAR to structural moving average</span>
+              <div class="math-card__formula derivation-stack">
+                <div class="derivation-row">
+                  <span class="derivation-row__label">Stable VAR(p)</span>
+                  <span class="derivation-row__content"><span class="math-token">y<sub>t</sub> = &nu; + A<sub>1</sub>y<sub>t-1</sub> + &ctdot; + A<sub>p</sub>y<sub>t-p</sub> + u<sub>t</sub></span></span>
+                </div>
+                <div class="derivation-row">
+                  <span class="derivation-row__label">Lag polynomial</span>
+                  <span class="derivation-row__content"><span class="math-token">A(L)y<sub>t</sub> = &nu; + u<sub>t</sub></span>, where <span class="math-token">A(L)=I-A<sub>1</sub>L-&ctdot;-A<sub>p</sub>L<sup>p</sup></span></span>
+                </div>
+                <div class="derivation-row">
+                  <span class="derivation-row__label">Stable inverse</span>
+                  <span class="derivation-row__content"><span class="math-token">A(L)<sup>-1</sup> = &sum;<sub>h=0</sub><sup>&infin;</sup>&Phi;<sub>h</sub>L<sup>h</sup></span>, so <span class="math-token">y<sub>t</sub> = &mu; + &sum;<sub>h=0</sub><sup>&infin;</sup>&Phi;<sub>h</sub>u<sub>t-h</sub></span></span>
+                </div>
+                <div class="derivation-row">
+                  <span class="derivation-row__label">Recursion</span>
+                  <span class="derivation-row__content"><span class="math-token">&Phi;<sub>0</sub>=I</span> and <span class="math-token">&Phi;<sub>h</sub>=A<sub>1</sub>&Phi;<sub>h-1</sub>+&ctdot;+A<sub>p</sub>&Phi;<sub>h-p</sub></span>, with missing lag terms treated as zero.</span>
+                </div>
+                <div class="derivation-row">
+                  <span class="derivation-row__label">Structural substitution</span>
+                  <span class="derivation-row__content"><span class="math-token">u<sub>t</sub>=B(&theta;)e<sub>t</sub>(&theta;)</span> gives <span class="math-token">&Psi;<sub>h</sub>(&theta;)=&Phi;<sub>h</sub>B(&theta;)</span>.</span>
+                </div>
+              </div>
+              <p class="math-card__note">The reduced-form coefficients <span class="math-token">&Phi;<sub>h</sub></span> stay fixed. Rotating <span class="math-token">B(&theta;)</span> changes the structural responses <span class="math-token">&Psi;<sub>h</sub>(&theta;)</span>.</p>
+            </div>
+            <p class="chart-note reader-cue">Move the rotation dial and use the blue line to follow one admissible IRF story. Every displayed set remains consistent with uncorrelated candidate shocks.</p>
+          </div>
+          <div class="rotation-lab">
+            <div id="setup-irf-control" class="rotation-control-slot"></div>
+            <div id="setup-current-irfs" class="setup-irf-grid">
+              <div class="plot-card"><canvas id="setup-irf-rate-rate" aria-label="Rate response to monetary policy shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-irf-sp500-rate" aria-label="S&amp;P 500 response to monetary policy shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-irf-rate-sp500" aria-label="Rate response to stock market shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-irf-sp500-sp500" aria-label="S&amp;P 500 response to stock market shock"></canvas></div>
+            </div>
+          </div>
+        </article>
+
+        <article id="setup-cloud" class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">6. The Admissible Cloud</span>
+            <h3>The cloud is what remains possible before extra identifying information.</h3>
+            <p>
+              This is the picture you will keep seeing below. Its 100 pale lines sample the sign-normalized IRFs implied
+              by the shared shock-covariance normalization before any extra identifying restriction is imposed.
+            </p>
+            <p>
+              Choose a rotation <span class="math-token">&theta;</span> to highlight one member of the cloud. The pale
+              lines show the sampled candidates, and the highlighted line shows which IRF belongs to the active
+              <span class="math-token">B(&theta;)</span>. The identification sections below reuse this same cloud and
+              ask which additional economic idea should select from it.
+            </p>
+            <div class="atlas-legend" aria-label="Line color legend">
+              <span><i class="legend-line legend-line--pale"></i>100 sampled rotations</span>
+              <span><i class="legend-line legend-line--active"></i>Active rotation</span>
+            </div>
+          </div>
+          <div class="rotation-lab">
+            <div id="setup-cloud-control" class="rotation-control-slot"></div>
+            <div id="setup-irf-cloud" class="setup-irf-grid">
+              <div class="plot-card"><canvas id="setup-cloud-rate-rate" aria-label="IRF cloud for rate response to monetary policy shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-cloud-sp500-rate" aria-label="IRF cloud for S&amp;P 500 response to monetary policy shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-cloud-rate-sp500" aria-label="IRF cloud for rate response to stock market shock"></canvas></div>
+              <div class="plot-card"><canvas id="setup-cloud-sp500-sp500" aria-label="IRF cloud for S&amp;P 500 response to stock market shock"></canvas></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--wide">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">7. What FEVD Measures</span>
+            <h3>FEVD summarizes an identified story; it does not usually identify one.</h3>
+            <p>
+              A forecast-error variance decomposition asks how much of variable <span class="math-token">i</span>'s
+              horizon-<span class="math-token">H</span> forecast uncertainty is attributed to structural shock
+              <span class="math-token">j</span>. It uses the same structural responses
+              <span class="math-token">&Psi;<sub>h</sub>(&theta;)</span> as the IRF plots, but squares and adds them over horizons.
+            </p>
+            <div class="math-card derivation-card">
+              <span class="math-card__label">FEVD share</span>
+              <div class="math-card__formula equation-stack-inline">
+                <span class="math-token">FEVD<sub>i,j</sub>(H,&theta;) =
+                  &sum;<sub>h=0</sub><sup>H-1</sup>&Psi;<sub>i,j,h</sub>(&theta;)<sup>2</sup>
+                  /
+                  &sum;<sub>&ell;</sub>&sum;<sub>h=0</sub><sup>H-1</sup>&Psi;<sub>i,&ell;,h</sub>(&theta;)<sup>2</sup></span>
+              </div>
+              <p class="matrix-note math-card__note">Here the table focuses on the interest-rate variable. The two columns show how its forecast-error variance is split between the policy and stock-market shocks at the current rotation.</p>
+            </div>
+          </div>
+          <div class="rotation-lab fevd-lab">
+            <div id="setup-fevd-control" class="rotation-control-slot"></div>
+            <div class="fevd-grid">
+              <div class="plot-card plot-card--wide">
+                <canvas id="setup-fevd-plot" aria-label="FEVD share across rotation angle"></canvas>
+              </div>
+              <div id="setup-fevd-table" class="comparison-card fevd-table-card"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="setup-step setup-step--wide identification-problem-card">
+          <div class="setup-step__copy">
+            <span class="section-eyebrow">8. Identification Problem</span>
+            <h3>Each method adds information and returns either a point or a set.</h3>
+            <p>
+              At this point every sampled rotation is admissible because every one recovers unit-variance, mutually uncorrelated candidate shocks. Each sampled rotation also implies different IRFs and FEVD shares. Identification begins when we add one economic idea and turn it into a loss, score, or zero-violation rule over the same grid of 100 rotations.
+            </p>
+            <p>
+              FEVD itself is a downstream diagnostic: it says how an already selected structural story allocates forecast uncertainty. The max-share method later turns one FEVD share into an objective, which is an extra identifying assumption rather than a fact supplied by the reduced-form VAR.
+            </p>
+            <p>
+              The table below previews what changes from method to method: which empirical variation is used, what
+              restriction or objective is imposed, how the rule selects from the rotation grid, and whether the output
+              is a single candidate or a set of admissible candidates.
+            </p>
+            <div id="method-jump-list"></div>
+          </div>
+          <div class="comparison-card atlas-table-card">
+            <div id="atlas-method-table"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="atlas-reading-guide" class="editorial-section atlas-reading-guide" data-reveal aria-labelledby="atlas-reading-heading">
+      <div class="editorial-section__header">
+        <span class="section-eyebrow">How to read this Atlas</span>
+        <h2 id="atlas-reading-heading">Keep estimation, identification, labeling, and inference separate.</h2>
+      </div>
+          <div class="editorial-section__intro">
+            <span class="guide-block__label">Reader routine</span>
+            <h3>Use the same three questions on every method page.</h3>
+            <p>
+              The common rotation grid is a teaching device. It lets you compare methods by holding the reduced form
+              fixed and changing only the additional identifying information.
+            </p>
+          </div>
+          <ol class="method-reading-steps">
+            <li>
+              <span class="method-reading-steps__number">1</span>
+              <div>
+                <h3>What is learned before identification?</h3>
+                <p>The fitted VAR supplies residuals, dynamics, and <span class="math-token">&Sigma;<sub>u</sub></span>. It does not supply economic shock labels.</p>
+              </div>
+            </li>
+            <li>
+              <span class="method-reading-steps__number">2</span>
+              <div>
+                <h3>What extra information enters?</h3>
+                <p>Look for the timing claim, sign, dated event, proxy moment, target objective, distributional shape, or volatility shift that orients the rotation.</p>
+              </div>
+            </li>
+            <li>
+              <span class="method-reading-steps__number">3</span>
+              <div>
+                <h3>What kind of answer is justified?</h3>
+                <p>A method may select one rotation, retain a set, identify only one column, or recover anonymous columns that still require economic labels.</p>
+              </div>
+            </li>
+          </ol>
+          <p class="editorial-callout context-note">
+            <span class="prose-label">Core distinction</span>
+            Recovery asks which rotation fits the maintained information; labeling
+            asks why a recovered column has an economic name; inference asks how uncertain the resulting object is.
+          </p>
+
+    </section>
+
+    <section id="atlas-literature-bridge" class="editorial-section atlas-literature-bridge" data-reveal aria-labelledby="atlas-literature-heading">
+          <div class="editorial-section__header">
+            <span class="section-eyebrow">Literature bridge</span>
+            <h2 id="atlas-literature-heading">Where the common rotation view comes from and where to go next.</h2>
+            <p id="atlas-literature-lead">
+              Use the Atlas as an entry point into the identification literature, not as a
+              substitute for the estimators, rank conditions, and uncertainty analysis used in research.
+            </p>
+          </div>
+          <div class="method-literature-overview">
+            <article id="atlas-literature-origins" class="method-literature-section">
+              <h3>From reduced-form VARs to structural interpretation</h3>
+              <p>
+                Sims (1980) made unrestricted multivariate dynamics, innovations, IRFs, and variance decompositions
+                central to empirical macroeconomics. The enduring boundary is that an orthogonalization is not an
+                economic interpretation by itself: causal shock labels require additional restrictions or information.
+              </p>
+            </article>
+            <article id="atlas-literature-rotations" class="method-literature-section">
+              <h3>The modern rotation formulation</h3>
+              <p>
+                Rubio-Ramirez, Waggoner, and Zha (2010) express observationally equivalent structural parameters as
+                orthogonal rotations and give global rank conditions and algorithms for exact restrictions. The Atlas
+                reduces that general geometry to one angle in a two-shock system so every candidate can be displayed.
+              </p>
+            </article>
+            <article id="atlas-literature-complements" class="method-literature-section">
+              <h3>Methods are alternatives and complements</h3>
+              <p>
+                Short-run and long-run zeros, signs and narratives, external instruments, declared objectives,
+                non-Gaussianity, and volatility shifts add different kinds of information. Applied papers often combine
+                them, for example signs with proxies or conventional restrictions with statistical identification.
+              </p>
+            </article>
+            <article id="atlas-literature-limits" class="method-literature-section">
+              <h3>What the Atlas deliberately leaves out</h3>
+              <p>
+                The display fixes a bivariate VAR, samples only 100 rotations, and reports no sampling, prior, or
+                weak-identification uncertainty. It also assumes the chosen information set can recover the relevant shock.
+                Real applications must address specification, invertibility, normalization, labeling, and inference.
+              </p>
+            </article>
+          </div>
+          <div id="atlas-literature-questions" class="method-literature-questions">
+            <h3>Questions to carry into an applied paper</h3>
+            <ul>
+              <li>What is the target economic shock, and which observable information could reveal it?</li>
+              <li>Does the maintained assumption deliver a point, a set, or only one identified column?</li>
+              <li>Which sign, scale, ordering, and permutation normalizations assign the reported label?</li>
+              <li>How are reduced-form, identification, and weak-signal uncertainty reflected in the reported IRFs?</li>
+            </ul>
+          </div>
+          <details id="atlas-literature-references" class="method-reference-disclosure">
+            <summary>Audited reading <span>3 audited sources ? cutoff 16 July 2026</span></summary>
+            <ul id="atlas-literature-reference-list" class="method-literature-list">
+              <li>Christopher A. Sims (1980), "Macroeconomics and Reality."</li>
+              <li>Juan F. Rubio-Ramirez, Daniel F. Waggoner, and Tao Zha (2010), "Structural Vector Autoregressions: Theory of Identification and Algorithms for Inference."</li>
+              <li>Lutz Kilian and Helmut Lutkepohl, <em>Structural Vector Autoregressive Analysis</em>, especially Chapters 4 and 8-15.</li>
+              <li>See each method page for source-specific origins, applications, critiques, and annotated references.</li>
+            </ul>
+          </details>
+    </section>
+
+    <section id="matlab-setup" class="section-card matlab-setup" data-atlas-feature="matlabReplication" data-reveal>
+      <div class="section-card__header">
+        <span class="section-eyebrow">Code bridge</span>
+        <h2>Shared Matlab setup for all method pages.</h2>
+      </div>
+      <div class="section-card__body">
+        <p class="guide-block__summary">
+          The code examples use simulated bivariate data so readers can run the same identification ideas without relying on private project data.
+          The panels below show the runnable Matlab bridge: the all-method runner, the shared setup, and small plotting utilities. Each method page contains its own identification loss and selection logic.
+        </p>
+        <div class="matlab-run-guide" aria-label="How to run the Matlab examples">
+          <div>
+            <strong>Run from the project folder</strong>
+            <ol>
+              <li>Open Matlab in <code>apps/atlas/source/matlab</code>.</li>
+              <li>Run <code>atlas_run_all_method_demos</code> to recreate every method figure set.</li>
+              <li>Open a method page to inspect the method-specific loss and selection script.</li>
+            </ol>
+          </div>
+          <div>
+            <strong>Copy into a fresh folder</strong>
+            <ol>
+              <li>Copy the runner, <code>atlas_setup.m</code>, and the method scripts you want.</li>
+              <li>Copy the helper files shown below.</li>
+              <li>Run the runner or an individual method script.</li>
+            </ol>
+          </div>
+          <p class="matlab-run-guide__note">Use the ZIP button below for one complete runnable folder with every method. If an embedded preview blocks downloads, open the page in a regular browser.</p>
+        </div>
+        <div id="matlab-setup-panel"></div>
+      </div>
+    </section>
+
+
+    <section id="atlas-next-card" class="atlas-next-card" data-reveal aria-label="Next Atlas page"></section>
+
+    <footer class="site-footer" data-reveal>
+      <p>
+        &copy; 2026 Sascha Keweloh. | <a href="https://sascha-keweloh.com/impressum.html">Impressum</a>
+      </p>
+    </footer>
+  </main>
+
+  <script type="module" src="js/app.js?v=20260716-source-gate1"></script>
+</body>
+</html>

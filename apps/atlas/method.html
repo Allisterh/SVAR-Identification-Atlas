@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="ui-preinit">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVAR Identification Method</title>
+  <meta
+    name="description"
+    content="A visual SVAR identification method guide with an interactive rotation criterion, interpretation steps, literature history, variants, applications, and caveats."
+  >
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="styles.css?v=20260715-section-audit1">
+</head>
+<body class="method-page-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="loading-screen" role="status" aria-live="polite" aria-label="Loading the SVAR method page" hidden style="display: none;">
+    <div class="loader loader--atlas">
+      <p class="loader__eyebrow">Preparing the method page</p>
+      <h1 class="loader__headline">Loading the SVAR illustration</h1>
+      <p class="loader__copy">Drawing the common rotation grid before the method enters.</p>
+      <div class="loader__chart-card">
+        <canvas id="loader-time-series" aria-label="Animated loading plot for the interest rate and S&amp;P 500"></canvas>
+        <div class="loader__legend" aria-hidden="true">
+          <span><i class="loader__swatch loader__swatch--rate"></i>Interest rate</span>
+          <span><i class="loader__swatch loader__swatch--sp500"></i>S&amp;P 500</span>
+        </div>
+      </div>
+      <div class="loader__progress" aria-hidden="true">
+        <div class="loader__progress-meta">
+          <span id="loader-status-text">Loading method diagnostics</span>
+          <span id="loader-progress-text">0%</span>
+        </div>
+        <div class="loader__progress-track">
+          <span id="loader-progress-bar"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="page-shell method-page-shell">
+    <nav id="atlas-timeline" class="atlas-timeline" aria-label="Atlas sequence"></nav>
+
+    <section class="hero atlas-hero method-hero" data-reveal>
+      <div class="hero__content">
+        <a class="method-back-link" href="index.html">&larr; Atlas overview</a>
+        <span class="eyebrow">Identification method</span>
+        <h1 id="method-page-title">SVAR identification</h1>
+        <p id="method-page-summary" class="hero__lede"></p>
+      </div>
+      <aside class="hero-meta" id="method-page-meta"></aside>
+    </section>
+
+    <section id="method-reading-guide" class="editorial-section method-reading-guide" data-reveal aria-labelledby="method-reading-heading">
+      <div id="method-reading-root"></div>
+    </section>
+
+    <div class="method-page-layout">
+      <div id="single-method-root" class="method-page-root"></div>
+      <aside id="method-cockpit-root" class="method-cockpit-root" aria-label="Rotation controls"></aside>
+    </div>
+
+    <section id="method-literature" class="editorial-section method-literature-chapter" data-reveal aria-labelledby="method-literature-heading">
+      <div id="method-literature-root"></div>
+    </section>
+
+    <section id="method-matlab" class="section-card method-matlab" data-atlas-feature="matlabReplication" data-reveal>
+      <div class="section-card__header">
+        <span class="section-eyebrow">Matlab</span>
+        <h2>Runnable simulated example.</h2>
+      </div>
+      <div class="matlab-run-guide" aria-label="How to run the Matlab example">
+        <div>
+          <strong>Run from the project folder</strong>
+          <ol>
+            <li>Open Matlab in <code>apps/atlas/source/matlab</code>.</li>
+            <li>Run this method script, for example <code>atlas_recursive_demo</code>.</li>
+            <li>Run <code>atlas_run_all_method_demos</code> to export every method figure set.</li>
+          </ol>
+        </div>
+        <div>
+          <strong>Copy into a fresh folder</strong>
+          <ol>
+            <li>Copy <code>atlas_setup.m</code> and this method script.</li>
+            <li>Copy the helper files in the disclosure below.</li>
+            <li>Run the method script; it creates diagnostics, all-rotation IRFs, and selected/accepted IRFs.</li>
+          </ol>
+        </div>
+        <p class="matlab-run-guide__note">The ZIP button creates the same folder automatically. If an embedded preview blocks downloads, open this page in a regular browser.</p>
+      </div>
+      <details class="shared-code-disclosure">
+        <summary>Show shared Matlab setup code</summary>
+        <div id="method-shared-code-panel"></div>
+      </details>
+      <div id="method-code-panel"></div>
+      <details class="shared-code-disclosure">
+        <summary>Show shared Matlab plotting and utility helpers</summary>
+        <div id="method-helper-code-panels"></div>
+      </details>
+    </section>
+
+    <section id="atlas-next-card" class="atlas-next-card" data-reveal aria-label="Next Atlas page"></section>
+
+    <footer class="site-footer" data-reveal>
+      <p>
+        &copy; 2026 Sascha Keweloh. | <a href="https://sascha-keweloh.com/impressum.html">Impressum</a>
+      </p>
+    </footer>
+  </main>
+
+  <script type="module" src="js/method-page.js?v=20260716-source-gate1"></script>
+</body>
+</html>
