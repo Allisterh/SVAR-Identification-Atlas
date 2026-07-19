@@ -1,0 +1,138 @@
+# Proxy-SVAR literature audit
+
+> Generated from the Atlas section, claim, source, and coverage registries. Edit the registries, not this report.
+
+## Audit boundary
+
+Selected foundational, identification, inference, diagnostic, extension, and representative application sources for the Proxy-SVAR teaching page; this is not a systematic review.
+
+- Review date: 2026-07-15
+- Literature cutoff: 15 July 2026
+- Status: audited-selected-guide
+- Saturation: achieved-for-declared-scope
+- Inline citation rule: Paper-specific contribution, result, attribution, or research-practice comparison.
+- Audit-only rule: Atlas-authored orientation, interaction guidance, or synthesis with evidence retained in the audit.
+- Registered reviewed sections: 19
+- Inline-cited sections: 7
+- Audit-only sections: 12
+- Registered claims: 16
+- Publicly listed sources: 17
+
+This is an audited selected guide for the teaching page, not a systematic review or a claim that every Proxy-SVAR publication is listed.
+
+## Section review and citation matrix
+
+| Section ID | Section | Citation display | Display reason | Claims | Required branches | Supporting sources | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| proxy.hero.overview | Page overview | audit only | Atlas-authored orientation with no paper-specific contribution claim. | proxy.validity.baseline | Identification conditions and structural object; Handbook or book-length treatment | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Lutz Kilian and Helmut Lütkepohl (2017) | verified / complete-for-declared-scope |
+| proxy.lab.criterion | Rotation criterion and diagnostic plots | audit only | Atlas interaction and plot-reading instructions; research-estimator contrasts stay in the literature bridge. | proxy.estimation.atlas-criterion; proxy.diagnostics.scale-first-stage | Identification conditions and structural object; Estimator, normalization, and implementation; Handbook or book-length treatment | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Lutz Kilian and Helmut Lütkepohl (2017) | verified / complete-for-declared-scope |
+| proxy.lab.irfs | Conditional impulse responses | audit only | Atlas interaction instructions; advanced inference qualifications stay in the literature bridge. | proxy.output.conditional-irfs | Identification conditions and structural object | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023) | verified / complete-for-declared-scope |
+| proxy.lab.overview | Interactive lab overview and maintained assumptions | audit only | Atlas-authored explanation of the interactive simplification. | proxy.validity.baseline; proxy.estimation.atlas-criterion; proxy.output.conditional-irfs | Identification conditions and structural object; Estimator, normalization, and implementation; Handbook or book-length treatment | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Lutz Kilian and Helmut Lütkepohl (2017); Silvia Miranda-Agrippino and Giovanni Ricco (2023) | verified / complete-for-declared-scope |
+| proxy.literature.applications | Applications and multiple-proxy variants | inline citations | Paper-specific claim or research-practice comparison. | proxy.applications.fiscal-monetary; proxy.applications.oil-carbon; proxy.identification.multiple-proxies | Representative fiscal, monetary, oil, and carbon applications; Multiple proxies, assignment, rank, and shock orthogonality | Karel Mertens and Morten O. Ravn (2013); Mark Gertler and Peter Karadi (2015); Marek Jarociński and Peter Karadi (2020); Diego R. Känzig (2021); Diego R. Känzig (2023, rev. 2025); Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) | verified / complete-for-declared-scope |
+| proxy.literature.developments | Methodological developments | inline citations | Paper-specific claim or research-practice comparison. | proxy.inference.weak-and-invertibility; proxy.inference.bootstrap; proxy.inference.bayesian | Weak-proxy identification and inference; Information contamination, timing, and invertibility; Bootstrap validity and small-sample alternatives; Bayesian and set-identified Proxy-SVAR inference | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023); Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Carsten Jentsch and Kurt G. Lunsford (2019); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns and Helmut Lütkepohl (2023); Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Robin Braun and Ralf Brüggemann (2023) | verified / complete-for-declared-scope |
+| proxy.literature.diagnostics | Critiques and applied diagnostics | inline citations | Paper-specific claim or research-practice comparison. | proxy.diagnostics.failure-sequence | Weak-proxy identification and inference; Information contamination, timing, and invertibility; Bootstrap validity and small-sample alternatives; Multiple proxies, assignment, rank, and shock orthogonality | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023); Marek Jarociński and Peter Karadi (2020); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) | verified / complete-for-declared-scope |
+| proxy.literature.estimator | Research estimator versus Atlas display | inline citations | Paper-specific claim or research-practice comparison. | proxy.estimation.covariance-vector | Identification conditions and structural object; Estimator, normalization, and implementation | Karel Mertens and Morten O. Ravn (2013); José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Lutz Kilian and Helmut Lütkepohl (2017) | verified / complete-for-declared-scope |
+| proxy.literature.origins | Origins and baseline external-instrument idea | inline citations | Paper-specific claim or research-practice comparison. | proxy.history.external-instrument-origin | Foundational external-instrument formulation; Identification conditions and structural object | James H. Stock and Mark W. Watson (2012); Karel Mertens and Morten O. Ravn (2013); José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) | verified / complete-for-declared-scope |
+| proxy.literature.overview | Literature bridge overview | audit only | Atlas synthesis that previews the directly cited literature subsections below. | proxy.history.external-instrument-origin; proxy.inference.weak-and-invertibility; proxy.inference.bayesian; proxy.identification.multiple-proxies | Foundational external-instrument formulation; Weak-proxy identification and inference; Information contamination, timing, and invertibility; Bayesian and set-identified Proxy-SVAR inference; Multiple proxies, assignment, rank, and shock orthogonality | James H. Stock and Mark W. Watson (2012); Karel Mertens and Morten O. Ravn (2013); José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023); Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Robin Braun and Ralf Brüggemann (2023); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) | verified / complete-for-declared-scope |
+| proxy.questions.construction | Application question: construction and timing | audit only | Atlas-authored synthesis question; its evidence remains in the audit and cited literature discussion. | proxy.measurement.instrument-not-shock; proxy.applications.fiscal-monetary; proxy.applications.oil-carbon | Foundational external-instrument formulation; Representative fiscal, monetary, oil, and carbon applications | Karel Mertens and Morten O. Ravn (2013); Mark Gertler and Peter Karadi (2015); Marek Jarociński and Peter Karadi (2020); Diego R. Känzig (2021); Diego R. Känzig (2023, rev. 2025) | verified / complete-for-declared-scope |
+| proxy.questions.exclusion | Application question: exclusion and information conditions | audit only | Atlas-authored synthesis question; its evidence remains in the audit and cited literature discussion. | proxy.identification.partial-invertibility-reading; proxy.diagnostics.failure-sequence | Identification conditions and structural object; Information contamination, timing, and invertibility | Silvia Miranda-Agrippino and Giovanni Ricco (2023); José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Marek Jarociński and Peter Karadi (2020); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) | verified / complete-for-declared-scope |
+| proxy.questions.multiple | Application question: several proxies and shocks | audit only | Atlas-authored synthesis question; its evidence remains in the audit and cited literature discussion. | proxy.identification.multiple-proxies | Multiple proxies, assignment, rank, and shock orthogonality | Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) | verified / complete-for-declared-scope |
+| proxy.questions.strength | Application question: first-stage strength | audit only | Atlas-authored synthesis question; its evidence remains in the audit and cited literature discussion. | proxy.inference.weak-relevance-reading; proxy.inference.bootstrap | Weak-proxy identification and inference; Bootstrap validity and small-sample alternatives | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Carsten Jentsch and Kurt G. Lunsford (2019); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns and Helmut Lütkepohl (2023) | verified / complete-for-declared-scope |
+| proxy.questions.uncertainty | Application question: uncertainty and inference | audit only | Atlas-authored synthesis question; its evidence remains in the audit and cited literature discussion. | proxy.inference.weak-and-invertibility; proxy.inference.bootstrap; proxy.inference.bayesian | Weak-proxy identification and inference; Bootstrap validity and small-sample alternatives; Bayesian and set-identified Proxy-SVAR inference | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023); Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Carsten Jentsch and Kurt G. Lunsford (2019); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns and Helmut Lütkepohl (2023); Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Robin Braun and Ralf Brüggemann (2023) | verified / complete-for-declared-scope |
+| proxy.reader.measurement | Reader step: instrument versus shock | inline citations | Paper-specific claim or research-practice comparison. | proxy.measurement.instrument-not-shock | Foundational external-instrument formulation; Identification conditions and structural object | Karel Mertens and Morten O. Ravn (2013) | verified / complete-for-declared-scope |
+| proxy.reader.output | Reader step: conditional causal interpretation | audit only | Atlas-authored interpretation guidance; advanced information-set conditions stay in the literature bridge. | proxy.output.conditional-irfs | Identification conditions and structural object | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023) | verified / complete-for-declared-scope |
+| proxy.reader.plots | Reader step: criterion plots and first-stage scale | audit only | Atlas-authored plot-reading instructions with no paper-specific contribution claim. | proxy.diagnostics.scale-first-stage | Estimator, normalization, and implementation; Handbook or book-length treatment | Lutz Kilian and Helmut Lütkepohl (2017) | verified / complete-for-declared-scope |
+| proxy.reader.relevance | Reader step: relevance versus exclusion | inline citations | Paper-specific claim or research-practice comparison. | proxy.inference.weak-relevance-reading | Weak-proxy identification and inference | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) | verified / complete-for-declared-scope |
+
+## Claim-to-source matrix
+
+| Claim ID | Type | Priority | Status | Evidence and locator |
+| --- | --- | --- | --- | --- |
+| proxy.applications.fiscal-monetary | application | context | verified | Karel Mertens and Morten O. Ravn (2013) - Abstract and empirical application [supports]; Mark Gertler and Peter Karadi (2015) - Abstract and identification section [supports]; Marek Jarociński and Peter Karadi (2020) - Abstract and identification design [supports] |
+| proxy.applications.oil-carbon | application | context | verified | Diego R. Känzig (2021) - Abstract and identification section [supports]; Diego R. Känzig (2023, rev. 2025) - NBER abstract and identification section of the September 2025 revision [supports] |
+| proxy.diagnostics.failure-sequence | limitation | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Sections 3–4 [supports]; Silvia Miranda-Agrippino and Giovanni Ricco (2023) - Sections 5–9 [supports]; Marek Jarociński and Peter Karadi (2020) - Identification design and empirical decomposition [supports]; Carsten Jentsch and Kurt G. Lunsford (2022) - Bootstrap and weak-proxy inference results [supports]; Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) - Sections 1–2 and conclusion [supports] |
+| proxy.diagnostics.scale-first-stage | diagnostic | core | verified | Lutz Kilian and Helmut Lütkepohl (2017) - Chapter 15, pp. 171–195 [supports] |
+| proxy.estimation.atlas-criterion | atlas-simplification | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Section 2 [supports]; Lutz Kilian and Helmut Lütkepohl (2017) - Chapter 15 [supports] |
+| proxy.estimation.covariance-vector | estimation | core | verified | Karel Mertens and Morten O. Ravn (2013) - Section II [supports]; José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Section 2 [supports]; Lutz Kilian and Helmut Lütkepohl (2017) - Chapter 15 [supports] |
+| proxy.history.external-instrument-origin | origin | core | verified | James H. Stock and Mark W. Watson (2012) - External-instrument identification discussion and empirical decomposition [supports]; Karel Mertens and Morten O. Ravn (2013) - Sections I–II [supports]; José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Introduction [supports] |
+| proxy.identification.multiple-proxies | identification | core | verified | Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024) - Identification discussion for multiple target shocks [supports]; Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022) - Set-identification discussion for multiple instruments and shocks [supports]; Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) - Abstract, Sections 1–2, and conclusion [supports] |
+| proxy.identification.partial-invertibility-reading | identification | core | verified | Silvia Miranda-Agrippino and Giovanni Ricco (2023) - Sections 2–6 and conclusion [supports] |
+| proxy.inference.bayesian | inference | core | verified | Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021) - Sections 2–3 and conclusion [supports]; Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022) - Abstract and Sections 2–4 [supports]; Robin Braun and Ralf Brüggemann (2023) - Abstract and methodological sections [supports] |
+| proxy.inference.bootstrap | inference | core | verified | Carsten Jentsch and Kurt G. Lunsford (2019) - Abstract and Sections I–III [supports]; Carsten Jentsch and Kurt G. Lunsford (2022) - Abstract and main bootstrap results [supports]; Martin Bruns and Helmut Lütkepohl (2023) - Sections 4–8 [supports] |
+| proxy.inference.weak-and-invertibility | inference | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Sections 3–4 [supports]; Silvia Miranda-Agrippino and Giovanni Ricco (2023) - Sections 3–6 and 8 [supports]; Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024) - Identification strategy, bootstrap relevance test, and conclusion [supports] |
+| proxy.inference.weak-relevance-reading | inference | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Sections 3–4 [supports] |
+| proxy.measurement.instrument-not-shock | measurement | core | verified | Karel Mertens and Morten O. Ravn (2013) - Sections I–II [supports] |
+| proxy.output.conditional-irfs | inference | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Sections 2–4 [supports]; Silvia Miranda-Agrippino and Giovanni Ricco (2023) - Sections 3–6 [supports] |
+| proxy.validity.baseline | identification | core | verified | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021) - Sections 2–4 [supports]; Lutz Kilian and Helmut Lütkepohl (2017) - Chapter 15, pp. 171–195 [supports] |
+
+## Coverage matrix
+
+| Category | Importance | Status | Sources |
+| --- | --- | --- | --- |
+| Foundational external-instrument formulation | core | covered | James H. Stock and Mark W. Watson (2012); Karel Mertens and Morten O. Ravn (2013) |
+| Identification conditions and structural object | core | covered | Karel Mertens and Morten O. Ravn (2013); José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Silvia Miranda-Agrippino and Giovanni Ricco (2023) |
+| Estimator, normalization, and implementation | core | covered | Karel Mertens and Morten O. Ravn (2013); Lutz Kilian and Helmut Lütkepohl (2017) |
+| Weak-proxy identification and inference | core | covered | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021); Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024) |
+| Bootstrap validity and small-sample alternatives | core | covered | Carsten Jentsch and Kurt G. Lunsford (2019); Carsten Jentsch and Kurt G. Lunsford (2022); Martin Bruns and Helmut Lütkepohl (2023) |
+| Information contamination, timing, and invertibility | core | covered | Marek Jarociński and Peter Karadi (2020); Silvia Miranda-Agrippino and Giovanni Ricco (2023) |
+| Bayesian and set-identified Proxy-SVAR inference | core | covered | Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Robin Braun and Ralf Brüggemann (2023) |
+| Multiple proxies, assignment, rank, and shock orthogonality | core | covered | Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024); Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022); Martin Bruns, Helmut Lütkepohl, and James McNeil (2025) |
+| Representative fiscal, monetary, oil, and carbon applications | representative | covered | Karel Mertens and Morten O. Ravn (2013); Mark Gertler and Peter Karadi (2015); Marek Jarociński and Peter Karadi (2020); Diego R. Känzig (2021); Diego R. Känzig (2023, rev. 2025) |
+| Handbook or book-length treatment | core | covered | Lutz Kilian and Helmut Lütkepohl (2017) |
+
+## Deliberately non-citation surfaces
+
+| Surface | Reason |
+| --- | --- |
+| Reader-guide heading and section navigation | Atlas navigation and comparison prose; it makes no paper-dependent contribution claim. |
+| Rotation controls, live status labels, canvases, and IRF display controls | Interactive UI and generated outputs whose interpretation is covered by the adjacent audited section. |
+| Next-page navigation and MATLAB disclosure | Product navigation and optional replication access, not literature claims. |
+
+## Public source registry
+
+| # | Source | Primary record | Claims supported |
+| ---: | --- | --- | --- |
+| 1 | James H. Stock and Mark W. Watson (2012), Disentangling the Channels of the 2007-2009 Recession. Brookings Papers on Economic Activity | [official page](https://www.brookings.edu/articles/disentangling-the-channels-of-the-2007-2009-recession/) | proxy.history.external-instrument-origin |
+| 2 | Karel Mertens and Morten O. Ravn (2013), The Dynamic Effects of Personal and Corporate Income Tax Changes in the United States. American Economic Review 103(4): 1212–1247 | [doi:10.1257/aer.103.4.1212](https://doi.org/10.1257/aer.103.4.1212) | proxy.applications.fiscal-monetary; proxy.estimation.covariance-vector; proxy.history.external-instrument-origin; proxy.measurement.instrument-not-shock |
+| 3 | Lutz Kilian and Helmut Lütkepohl (2017), Structural Vector Autoregressive Analysis. Cambridge University Press | [doi:10.1017/9781108164818](https://doi.org/10.1017/9781108164818) | proxy.diagnostics.scale-first-stage; proxy.estimation.atlas-criterion; proxy.estimation.covariance-vector; proxy.validity.baseline |
+| 4 | Mark Gertler and Peter Karadi (2015), Monetary Policy Surprises, Credit Costs, and Economic Activity. American Economic Journal: Macroeconomics 7(1): 44–76 | [doi:10.1257/mac.20130329](https://doi.org/10.1257/mac.20130329) | proxy.applications.fiscal-monetary |
+| 5 | José L. Montiel Olea, James H. Stock, and Mark W. Watson (2021), Inference in Structural Vector Autoregressions Identified with an External Instrument. Journal of Econometrics 225(1): 74–87 | [doi:10.1016/j.jeconom.2020.05.014](https://doi.org/10.1016/j.jeconom.2020.05.014) | proxy.diagnostics.failure-sequence; proxy.estimation.atlas-criterion; proxy.estimation.covariance-vector; proxy.history.external-instrument-origin; proxy.inference.weak-and-invertibility; proxy.inference.weak-relevance-reading; proxy.output.conditional-irfs; proxy.validity.baseline |
+| 6 | Silvia Miranda-Agrippino and Giovanni Ricco (2023), Identification with External Instruments in Structural VARs. Journal of Monetary Economics 135: 1–19 | [doi:10.1016/j.jmoneco.2023.01.006](https://doi.org/10.1016/j.jmoneco.2023.01.006) | proxy.diagnostics.failure-sequence; proxy.identification.partial-invertibility-reading; proxy.inference.weak-and-invertibility; proxy.output.conditional-irfs |
+| 7 | Marek Jarociński and Peter Karadi (2020), Deconstructing Monetary Policy Surprises: The Role of Information Shocks. American Economic Journal: Macroeconomics 12(2): 1–43 | [doi:10.1257/mac.20180090](https://doi.org/10.1257/mac.20180090) | proxy.applications.fiscal-monetary; proxy.diagnostics.failure-sequence |
+| 8 | Carsten Jentsch and Kurt G. Lunsford (2019), The Dynamic Effects of Personal and Corporate Income Tax Changes in the United States: Comment. American Economic Review 109(7): 2655–2678 | [doi:10.1257/aer.20162011](https://doi.org/10.1257/aer.20162011) | proxy.inference.bootstrap |
+| 9 | Carsten Jentsch and Kurt G. Lunsford (2022), Asymptotically Valid Bootstrap Inference for Proxy SVARs. Journal of Business & Economic Statistics 40(4): 1876–1891 | [doi:10.1080/07350015.2021.1990770](https://doi.org/10.1080/07350015.2021.1990770) | proxy.diagnostics.failure-sequence; proxy.inference.bootstrap |
+| 10 | Martin Bruns and Helmut Lütkepohl (2023), An Alternative Bootstrap for Proxy Vector Autoregressions. Computational Economics 62(4): 1857–1882 | [doi:10.1007/s10614-022-10323-w](https://doi.org/10.1007/s10614-022-10323-w) | proxy.inference.bootstrap |
+| 11 | Giovanni Angelini, Giuseppe Cavaliere, and Luca Fanelli (2024), An Identification and Testing Strategy for Proxy-SVARs with Weak Proxies. Journal of Econometrics 238(2), article 105604 | [doi:10.1016/j.jeconom.2023.105604](https://doi.org/10.1016/j.jeconom.2023.105604) | proxy.identification.multiple-proxies; proxy.inference.weak-and-invertibility |
+| 12 | Jonas E. Arias, Juan F. Rubio-Ramírez, and Daniel F. Waggoner (2021), Inference in Bayesian Proxy-SVARs. Journal of Econometrics 225(1): 88–106 | [doi:10.1016/j.jeconom.2020.12.004](https://doi.org/10.1016/j.jeconom.2020.12.004) | proxy.inference.bayesian |
+| 13 | Raffaella Giacomini, Toru Kitagawa, and Matthew Read (2022), Robust Bayesian Inference in Proxy SVARs. Journal of Econometrics 228(1): 107–126 | [doi:10.1016/j.jeconom.2021.02.003](https://doi.org/10.1016/j.jeconom.2021.02.003) | proxy.identification.multiple-proxies; proxy.inference.bayesian |
+| 14 | Robin Braun and Ralf Brüggemann (2023), Identification of SVAR Models by Combining Sign Restrictions with External Instruments. Journal of Business & Economic Statistics 41(4): 1077–1089 | [doi:10.1080/07350015.2022.2104857](https://doi.org/10.1080/07350015.2022.2104857) | proxy.inference.bayesian |
+| 15 | Martin Bruns, Helmut Lütkepohl, and James McNeil (2025), Avoiding Unintentionally Correlated Shocks in Proxy Vector Autoregressive Analysis. Journal of Business & Economic Statistics 43(4): 1119–1131 | [doi:10.1080/07350015.2025.2476699](https://doi.org/10.1080/07350015.2025.2476699) | proxy.diagnostics.failure-sequence; proxy.identification.multiple-proxies |
+| 16 | Diego R. Känzig (2021), The Macroeconomic Effects of Oil Supply News: Evidence from OPEC Announcements. American Economic Review 111(4): 1092–1125 | [doi:10.1257/aer.20190964](https://doi.org/10.1257/aer.20190964) | proxy.applications.oil-carbon |
+| 17 | Diego R. Känzig (2023, rev. 2025), The Unequal Economic Consequences of Carbon Pricing. NBER Working Paper 31221 | [doi:10.3386/w31221](https://doi.org/10.3386/w31221) | proxy.applications.oil-carbon |
+
+## Search and completeness record
+
+### vault-branch-map
+
+- Completed: 2026-07-15
+- Method: Reviewed the Proxy-SVAR specialist overview, linked source-backed paper notes, citation records, and the overview branches for weak proxies, invertibility, bootstrap, Bayesian, high-frequency, multi-proxy, and application work.
+- Result: Established the initial source set and exposed missing one-paper-per-entry coverage for recent weak-proxy and multi-proxy diagnostics.
+
+### primary-publisher-verification
+
+- Completed: 2026-07-15
+- Method: Checked the candidate set against publisher or official working-paper records and performed targeted branch searches for foundational attribution, weak identification, partial invertibility, bootstrap inference, Bayesian/set inference, multiple proxies, and representative applications.
+- Result: Corrected version-of-record metadata and added the 2024 weak-proxy strategy and 2025 correlated-shock diagnostic; no further source changed a required core coverage category.
+
+## Candidate decisions
+
+| Candidate | Decision | Reason |
+| --- | --- | --- |
+| Stock (2008) SVAR-IV lecture material | exclude-from-public-list | The origin is acknowledged through the published Stock–Watson application and the Montiel Olea–Stock–Watson historical discussion; the Atlas list requires a stable public source record. |
+| Testing for strong exogeneity in Proxy-VARs | defer | The vault contains a substantive working-paper note, but the pilot public list prioritizes publisher-stable sources and already covers maintained-exogeneity tests through the published partial-invertibility and multi-proxy branches. |
+| Exogenous uncertainty and the identification of structural vector autoregressions with external instruments | exclude-as-redundant-for-page-scope | Its multi-instrument rank contribution remains important in the vault, but the shorter Atlas bridge uses the newer weak-proxy and correlated-shock papers for the applied checklist it presents. |
+
+## Reproduction
+
+- Check registries and report: node source/check_proxy_literature.mjs
+- Refresh after an intentional review: node source/check_proxy_literature.mjs --write-report

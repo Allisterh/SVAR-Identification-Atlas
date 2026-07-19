@@ -29,24 +29,24 @@ export default {
   priorityIrfKeys: ['rateOnSp500', 'sp500OnSp500'],
   readingSteps: [
     {
-      title: '1. State the event claim before looking at the plots &mdash; Kilian and Lutkepohl (2017)',
+      title: '1. State the event claim before looking at the plots',
       body:
         'The maintained claim is stronger than “markets were turbulent in October 2008.” It says that one particular latent shock was negative and larger than the competing policy shock. That historical classification is an assumption supplied from outside the reduced-form VAR.',
     },
     {
       title: '2. Use the dial to recover alternative histories',
       body:
-        'Each angle produces a covariance-equivalent impact matrix and therefore a different pair of recovered structural shocks. This model-dependent event history is the central object in Antolin-Diaz and Rubio-Ramirez (2018). At the October marker, compare the stock-shock sign and the two absolute magnitudes.',
+        'Each angle produces a covariance-equivalent impact matrix and therefore a different pair of recovered structural shocks. At the October marker, compare the stock-shock sign and the two absolute magnitudes.',
     },
     {
       title: '3. Interpret zero as acceptance, not as a best score',
       body:
-        'The loss counts violations. Every zero-loss rotation is equally admissible under this simple rule, following the set-inference logic emphasized by Arias, Rubio-Ramirez, and Waggoner (2018); a rotation with loss one or two contradicts part or all of the maintained narrative.',
+        'The loss counts violations. Every zero-loss rotation is equally admissible under this simple rule; a rotation with loss one or two contradicts part or all of the maintained narrative.',
     },
     {
       title: '4. Carry the accepted set into the IRFs',
       body:
-        'The event does not normally select a unique impact matrix. Read the accepted IRFs as the dynamic range consistent with both the reduced form and the dated story, as in the event-inequality application of Ludvigson, Ma, and Ng (2021), and keep the event-classification uncertainty in mind.',
+        'The event does not normally select a unique impact matrix. Read the accepted IRFs as the dynamic range consistent with both the reduced form and the dated story, and keep the event-classification uncertainty in mind.',
     },
   ],
   literatureTitle: 'From the Atlas event filter to the narrative-restrictions literature',
@@ -56,22 +56,22 @@ export default {
     {
       title: 'Origins: from narrative shock series to restrictions inside an SVAR',
       body:
-        'Macroeconomists first used historical records to construct direct shock series: Romer and Romer monetary-policy dates and tax changes, Ramey government-spending news, and oil-supply disruptions are prominent examples in the literature. Those series face difficult questions about timing, predictability, measurement error, and contamination. Antolin-Diaz and Rubio-Ramirez (2018) made a different move: retain the latent shocks of an SVAR, but rule out rotations whose recovered history contradicts a small number of credible event statements.',
+        'Romer and Romer (1989, Abstract and Sections 2&ndash;3) use FOMC minutes and Records of Policy Actions to identify six episodes in which the Federal Reserve deliberately attempted to create a recession to reduce inflation. Romer and Romer (2010, Abstract and Sections I&ndash;II) use primary policy records to classify legislated tax changes by motivation and retain inherited-deficit and long-run changes as unrelated to current or prospective economic conditions. Ramey (2011, Abstract and Sections IV&ndash;V) shows that military dates and professional forecasts Granger-cause VAR spending shocks and constructs a defense-news series from contemporaneous reports to date changes in expected spending. Kilian (2008, Abstract) proposes a new measure of exogenous oil-supply shocks and finds that only a small fraction of oil-price increases during crisis episodes is attributable to exogenous production disruptions.',
     },
     {
       title: 'The main formal variants',
       body:
-        'A shock-sign restriction says that a named shock was positive or negative on a date. A Type A historical-decomposition restriction says that one shock was the most or least important contributor to an unexpected movement relative to each competing shock. A stronger Type B restriction says that its absolute contribution exceeded the sum of all other contributions, or was negligible relative to them. Real applications can combine several dates, ordinary sign or zero restrictions, elasticity bounds, and restrictions over event windows rather than one observation.',
+        'Antol&iacute;n-D&iacute;az and Rubio-Ram&iacute;rez (2018, Section II.B) define narrative shock-sign restrictions that require a named recovered structural shock to be positive or negative at selected dates. In Section II.C, they define Type A historical-decomposition restrictions by comparing one shock with each competing contribution and Type B restrictions by comparing it with the sum of all competing contributions.',
     },
     {
       title: 'Development and applications',
       body:
-        'Antolin-Diaz and Rubio-Ramirez use Persian Gulf War oil-market episodes to separate oil-supply and demand shocks and use the October 1979 Volcker reform to sharpen monetary-policy inference. Ludvigson, Ma, and Ng (2021) develop a related event-inequality design for macro and financial uncertainty: crisis dates restrict recovered shocks, while stock returns and real gold-price changes enter as signed correlation constraints rather than clean Proxy-SVAR instruments. These applications show that “narrative” can mean a shock sign, a relative contribution, or a collection of weaker event inequalities; the exact object must always be stated.',
+        'Antol&iacute;n-D&iacute;az and Rubio-Ram&iacute;rez (2018, Abstract and Sections IV&ndash;V) use narrative restrictions around the August 1990 Persian Gulf War and the October 1979 Volcker reform and show that even one event can sharply narrow the admissible structural set. Ludvigson, Ma, and Ng (2021, Sections III.B&ndash;III.C) restrict recovered shocks at selected historical events and impose signed-correlation inequalities with stock returns and real gold-price changes, explicitly without treating those external variables as valid instruments.',
     },
     {
       title: 'What a full literature implementation adds',
       body:
-        'The Atlas holds the reduced form fixed and simply filters a finite angle grid. In the Bayesian procedure of Antolin-Diaz and Rubio-Ramirez, researchers also draw reduced-form parameters and rotations, recover shocks and historical decompositions, and condition on the narrative event. Because the event depends on realized model-implied shocks, it truncates the likelihood. Accepted draws therefore receive an importance weight proportional to the inverse of the model-implied probability that simulated shocks would satisfy the event; plain accept-reject filtering targets a different posterior.',
+        'Antol&iacute;n-D&iacute;az and Rubio-Ram&iacute;rez (2018, Section III, equation (17), and Algorithm 1) show that narrative restrictions truncate the likelihood and weight accepted draws by the inverse model-implied probability of satisfying the event. The Atlas instead holds the reduced form fixed and uses an unweighted finite-grid filter, so it illustrates the identifying logic rather than reproducing that Bayesian posterior.',
     },
     {
       title: 'Caveats and critiques to carry into applied work',
@@ -85,13 +85,6 @@ export default {
     'How sensitive is the accepted set to removing one episode, widening the event window, or treating the episode as a regime change?',
     'If the analysis is Bayesian, are the inverse-probability importance weights implemented and stable?',
     'Does the paper report feasible response paths and joint uncertainty rather than one optimized rotation or a stitched pointwise median?',
-  ],
-  literatureRefs: [
-    'Antolin-Diaz and Rubio-Ramirez (2018), "Narrative Sign Restrictions for SVARs," American Economic Review 108(10): the formal shock-sign and historical-decomposition framework, Bayesian weighting, and oil and monetary applications.',
-    'Kilian and Lutkepohl, Structural Vector Autoregressive Analysis, Chapter 7: the historical route from narrative, news, and market-expectations measures to structurally interpreted shocks.',
-    'Ludvigson, Ma, and Ng (2021), "Uncertainty and Business Cycles: Exogenous Impulse or Endogenous Response?": event inequalities and external-variable sign constraints for macro and financial uncertainty.',
-    'Arias, Rubio-Ramirez, and Waggoner (2018), "Inference Based on Structural Vector Autoregressions Identified With Sign and Zero Restrictions: Theory and Applications": admissible-set inference and the danger of replacing a set with one optimized rotation.',
-    'Kilian and Lutkepohl, Structural Vector Autoregressive Analysis, Chapter 13: historical restrictions, mixed sign-zero algorithms, rotation priors, and set-identification reporting.',
   ],
   plotTitle: 'October 2008 narrative restriction',
   extra: 'Recovered shocks over time',

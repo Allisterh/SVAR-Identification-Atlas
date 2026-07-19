@@ -1,9 +1,9 @@
 import { bootPage } from './bootstrap.js';
 import { methodList } from './data-utils.js';
 import { applyAtlasFeatureVisibility, isAtlasFeatureEnabled } from './feature-flags.js?v=20260715-matlab-flag1';
-import { renderSingleMethodPage, redrawInitializedMethodCards } from './method-cards.js?v=20260716-source-gate1';
-import { methodLiteratureHtml, methodReadingGuideHtml } from './methods/detail-panel.js?v=20260716-source-gate1';
-import methodContentById from './methods/index.js?v=20260716-source-gate1';
+import { renderSingleMethodPage, redrawInitializedMethodCards } from './method-cards.js?v=20260719-source-gate2';
+import { methodLiteratureHtml, methodReadingGuideHtml } from './methods/detail-panel.js?v=20260719-source-gate2';
+import methodContentById from './methods/index.js?v=20260719-source-gate2';
 import { renderAtlasNextCard, renderAtlasTimeline } from './timeline.js?v=20260715-editorial-layout1';
 
 const params = new URLSearchParams(window.location.search);

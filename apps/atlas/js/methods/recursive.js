@@ -32,15 +32,15 @@ export default {
   readingSteps: [
     {
       title: '1. Decode the matrix entry',
-      body: `Use row first, column second. ${bEntry(1, 2)} maps the stock-market shock into the interest-rate residual. Setting it to zero orders the interest rate before stock returns; ${bEntry(2, 1)} remains free, so a policy shock may move stock returns immediately. Kilian and Lutkepohl (2017, Chapters 8-9) connect this row-column mapping to a triangular short-run restriction.`,
+      body: `Use row first, column second. ${bEntry(1, 2)} maps the stock-market shock into the interest-rate residual. Setting it to zero orders the interest rate before stock returns; ${bEntry(2, 1)} remains free, so a policy shock may move stock returns immediately.`,
     },
     {
       title: '2. Use the dial to see identification happen',
-      body: `Turning the dial changes ${mathHtml('B(&theta;)')}, recovered shocks, and IRFs without changing the covariance fit. Watch ${bEntry(1, 2)} approach and cross zero. The selected grid point is the Atlas approximation to the lower-triangular impact matrix. Sims (1980) introduced orthogonalized VAR responses but warned that a Cholesky triangularization is not automatically a unique structural story.`,
+      body: `Turning the dial changes ${mathHtml('B(&theta;)')}, recovered shocks, and IRFs without changing the covariance fit. Watch ${bEntry(1, 2)} approach and cross zero. The selected grid point is the Atlas approximation to the lower-triangular impact matrix.`,
     },
     {
       title: '3. Separate impact timing from later dynamics',
-      body: 'The zero applies only within the impact month. Move to the IRFs and check what the VAR dynamics imply afterward. A later response of the interest rate to a stock-market shock does not violate the recursive restriction. Christiano, Eichenbaum, and Evans (2005) and Kilian (2009) are prominent applications of this impact-delay-versus-lagged-propagation logic.',
+      body: 'The zero applies only within the impact month. Move to the IRFs and check what the VAR dynamics imply afterward. A later response of the interest rate to a stock-market shock does not violate the recursive restriction.',
     },
   ],
   literatureTitle: 'From the Atlas zero to recursive SVAR practice',
@@ -49,19 +49,19 @@ export default {
   literatureSections: [
     {
       title: 'Origins and development',
-      body: `Sims (1980) established the unrestricted VAR, orthogonalized impulse-response, and forecast-error-variance-decomposition program, while warning that a triangularization was not uniquely structural. Later SVAR practice made the hidden assumption explicit: if ${mathHtml("P P' = &Sigma;<sub>u</sub>")} and ${mathHtml('P')} is the lower-triangular Cholesky factor, setting the impact matrix equal to ${mathHtml('P')} imposes ${mathHtml('K(K-1)/2')} contemporaneous zeros. These zeros define a recursive causal ordering conditional on the VAR lags. Kilian and Lutkepohl emphasize that satisfying the covariance equation and the numerical order condition is not enough; the ordering also needs a credible economic and institutional interpretation.`,
+      body: 'Sims (1980, Section 2.C) orthogonalized correlated VAR innovations with a triangular ordering but stated that there was no unique best transformation. Kilian and L&uuml;tkepohl (2017, Chapter 8, Section 8.2) show that a lower-triangular Cholesky factor supplies K(K-1)/2 impact zeros and emphasize that the resulting recursive ordering needs an economic justification.',
     },
     {
       title: 'Major versions and applications',
-      body: 'A fully recursive SVAR assigns an ordering to every shock. Block-recursive designs order groups of variables but allow unrestricted interaction within a block. Semistructural applications often interpret only one shock, such as a monetary-policy innovation, and leave the remaining orthogonal shocks as residual composites. Nonrecursive short-run SVARs relax the triangular chain and combine impact zeros, equality restrictions, calibrated elasticities, or an AB representation; estimation may then require nonlinear solvers, QR algorithms, IV, GMM, FIML, or structural Bayesian methods. Important applications include the recursive monetary-policy system used by Christiano, Eichenbaum, and Evans (2005), Kilian\'s (2009) monthly oil-market ordering, and the nonrecursive institutional-timing design of Blanchard and Perotti (2002). Recent work by Keweloh and Wang treats economically suspected zeros as shrinkage targets that non-Gaussian information may support or overturn.',
+      body: 'Christiano, Eichenbaum, and Evans (2005, Section II) identify a monetary-policy shock by ordering variables around the federal funds rate so that one block cannot respond within the period and the policy authority observes another block only with a lag. Kilian (2009, Section II.A) identifies three oil-market shocks with a monthly recursive impact matrix motivated by short-run delays. Blanchard and Perotti (2002, Section II.B and Appendix A.2) combine fiscal decision lags with externally constructed tax elasticities in a nonrecursive fiscal SVAR. Keweloh and Wang (2025, Sections 4 and 7) use an adaptive ridge penalty to shrink statistically identified non-Gaussian SVAR estimates toward suspected short-run zeros while making the asymptotic effect of invalid restrictions vanish.',
     },
     {
       title: 'How the Atlas differs from an applied recursive SVAR',
-      body: `The Atlas fixes one estimated bivariate reduced form, varies one rotation angle, and approximates one zero with a finite grid. In an exactly recursive ${mathHtml('K')}-variable model, the declared ordering supplies a complete triangular zero pattern and the Cholesky factor computes the solution directly, with no rotation search. Applied work must also estimate lag dynamics and ${mathHtml('&Sigma;<sub>u</sub>')}, choose transformations and data frequency, normalize column signs, and propagate sampling uncertainty into IRFs and FEVDs. A positive Cholesky diagonal is a computational sign convention; it does not by itself label an economically positive shock.`,
+      body: `The Atlas fixes one estimated bivariate reduced form, varies one rotation angle, and approximates one zero with a finite grid. An exact recursive model instead computes the Cholesky factor after the ordering has been justified. Applied work must additionally estimate the lag dynamics and ${mathHtml('&Sigma;<sub>u</sub>')}, choose transformations and frequency, normalize column signs, and quantify sampling uncertainty. A positive Cholesky diagonal is a computational convention, not an economic shock label.`,
     },
     {
       title: 'Credibility checks and critiques',
-      body: 'The decisive question is whether the excluded within-period feedback is plausible at the sampling frequency. Financial variables can react within minutes, while production, fiscal decisions, or some real aggregates may adjust slowly. Reordering variables can change shocks and IRFs, yet agreement across orderings is not validation: when reduced-form residual correlations are small, several Cholesky orderings can look similar even when the true impact matrix is nonrecursive. Recursive monetary VARs additionally face omitted central-bank information, real-time-data, policy-regime, and effective-lower-bound problems. Just-identified zeros are maintained assumptions rather than restrictions tested by the same covariance information. Pesaran-Shin generalized responses remove ordering sensitivity for a reduced-form conditional experiment, but they do not identify an economic structural shock.',
+      body: 'Pesaran and Shin (1998, Abstract and Section 3) define generalized impulse responses that do not require shock orthogonalization and are invariant to the ordering of the VAR variables. That order invariance describes a reduced-form conditional experiment; an economic shock label still requires separate identifying information.',
     },
   ],
   literatureQuestions: [

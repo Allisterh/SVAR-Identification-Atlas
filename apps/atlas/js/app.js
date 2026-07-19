@@ -1,4 +1,4 @@
-import './overview-research.js?v=20260716-source-gate1';
+import './overview-research.js?v=20260719-source-gate2';
 import { bootPage } from './bootstrap.js';
 import { setupData } from './data/identification-atlas-data.js';
 import { applyAtlasFeatureVisibility, isAtlasFeatureEnabled } from './feature-flags.js?v=20260715-matlab-flag1';

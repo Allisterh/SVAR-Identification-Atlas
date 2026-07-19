@@ -4,12 +4,12 @@ export const atlasCoverage = {
   ...pageCoverage,
   proxy: {
     page: 'proxy',
-    status: 'audited-selected-guide',
+    status: 'primary-claim-audited-selected-guide',
     scope:
-      'Selected foundational, identification, inference, diagnostic, extension, and representative application sources for the Proxy-SVAR teaching page; this is not a systematic review.',
-    literatureCutoff: '2026-07-15',
-    literatureCutoffLabel: '15 July 2026',
-    reviewedAt: '2026-07-15',
+      'Selected foundational, estimator, identification, weak-instrument, bootstrap, Bayesian/set-identification, multiple-proxy, and representative application sources verified claim by claim against primary texts; this is not a systematic review.',
+    literatureCutoff: '2026-07-19',
+    literatureCutoffLabel: '19 July 2026',
+    reviewedAt: '2026-07-19',
     saturation: 'achieved-for-declared-scope',
     searchPasses: [
       {
@@ -27,6 +27,14 @@ export const atlasCoverage = {
           'Checked the candidate set against publisher or official working-paper records and performed targeted branch searches for foundational attribution, weak identification, partial invertibility, bootstrap inference, Bayesian/set inference, multiple proxies, and representative applications.',
         result:
           'Corrected version-of-record metadata and added the 2024 weak-proxy strategy and 2025 correlated-shock diagnostic; no further source changed a required core coverage category.',
+      },
+      {
+        id: 'atomic-primary-claim-audit',
+        completedAt: '2026-07-19',
+        method:
+          'Re-read each visible Proxy-SVAR attribution against the primary article, book chapter, or public author/publisher copy; split bundled statements into one-source atomic claims and removed paper citations from Atlas-authored teaching prose.',
+        result:
+          'Replaced the legacy bundled claim records with 17 primary-v1 claims, one for every publicly listed Proxy-SVAR source, while keeping the reader guide and applied diagnostic synthesis citation-free.',
       },
     ],
     categories: {
@@ -127,21 +135,17 @@ export const atlasCoverage = {
         'proxy.lab.overview',
         'proxy.lab.criterion',
         'proxy.lab.irfs',
-        'proxy.reader.measurement',
-        'proxy.reader.relevance',
-        'proxy.reader.plots',
-        'proxy.reader.output',
         'proxy.literature.overview',
-        'proxy.literature.origins',
-        'proxy.literature.estimator',
-        'proxy.literature.developments',
-        'proxy.literature.applications',
-        'proxy.literature.diagnostics',
-        'proxy.questions.construction',
-        'proxy.questions.strength',
-        'proxy.questions.exclusion',
-        'proxy.questions.multiple',
-        'proxy.questions.uncertainty',
+        'proxy.questions',
+        'proxy.reader.0',
+        'proxy.reader.1',
+        'proxy.reader.2',
+        'proxy.reader.3',
+        'proxy.literature.0',
+        'proxy.literature.1',
+        'proxy.literature.2',
+        'proxy.literature.3',
+        'proxy.literature.4',
       ],
       excludedSurfaces: [
         {

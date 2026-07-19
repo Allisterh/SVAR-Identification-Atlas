@@ -17,7 +17,7 @@ export const atlasSources = {
       proxy: {
         order: 1,
         listed: true,
-        annotation: 'an early published external-instrument implementation and a foundation for the modern SVAR-IV branch.',
+        annotation: 'uses 17 external instruments to estimate six structural shocks in a dynamic factor model.',
       },
     },
   },
@@ -41,7 +41,7 @@ export const atlasSources = {
       proxy: {
         order: 2,
         listed: true,
-        annotation: 'the influential fiscal Proxy-SVAR application that treats narrative tax measures as noisy proxies for latent tax shocks.',
+        annotation: 'treats narrative personal- and corporate-tax changes as proxies for latent tax shocks subject to measurement error.',
       },
     },
   },
@@ -60,13 +60,13 @@ export const atlasSources = {
     pageUses: {
       overview: {
         order: 3,
-        listed: true,
+        listed: false,
         annotation: 'the book-length map of SVAR identification, estimation, inference, and empirical practice behind the method pages.',
       },
       recursive: {
         order: 2,
         listed: true,
-        annotation: 'Chapters 8?9 cover recursive, semistructural, and nonrecursive short-run identification.',
+        annotation: 'Chapters 8&ndash;9 cover recursive, semistructural, and nonrecursive short-run identification.',
       },
       sign: {
         order: 10,
@@ -75,18 +75,18 @@ export const atlasSources = {
       },
       narrative: {
         order: 6,
-        listed: true,
+        listed: false,
         annotation: 'Chapters 7 and 13 connect historical shock measures, narrative restrictions, and set-valued inference.',
       },
       'long-run': {
         order: 7,
         listed: true,
-        annotation: 'Chapters 10?12 cover stationary, integrated, cointegrated, and mixed long-run systems.',
+        annotation: 'Chapters 10&ndash;12 cover stationary, integrated, cointegrated, and mixed long-run systems.',
       },
       'max-share': {
         order: 6,
-        listed: true,
-        annotation: 'Chapters 4 and 17 cover FEVD construction, nonfundamentalness, and technology-news selectors.',
+        listed: false,
+        annotation: 'FEVD construction and the technology-news chapter are useful background, but the retained paper attributions are verified directly against their primary sources.',
       },
       proxy: {
         order: 3,
@@ -115,7 +115,7 @@ export const atlasSources = {
       proxy: {
         order: 4,
         listed: true,
-        annotation: 'the benchmark high-frequency monetary-policy application using announcement surprises as external instruments.',
+        annotation: 'uses high-frequency interest-rate surprises around policy announcements as external instruments in monetary VARs.',
       },
     },
   },
@@ -139,7 +139,7 @@ export const atlasSources = {
       proxy: {
         order: 5,
         listed: true,
-        annotation: 'the central weak-proxy reference, with Anderson–Rubin/Fieller-style confidence sets valid regardless of instrument strength.',
+        annotation: 'constructs Anderson–Rubin/Fieller-style impulse-response confidence sets valid under weak or strong instruments.',
       },
     },
   },
@@ -413,7 +413,7 @@ export const atlasSources = {
       proxy: {
         order: 16,
         listed: true,
-        annotation: 'a representative commodity application built from high-frequency OPEC announcement surprises.',
+        annotation: 'uses oil-futures movements around OPEC announcements as an external instrument for oil-supply news.',
       },
     },
   },

@@ -1,9 +1,5 @@
 import { mathHtml } from '../formulas.js';
-import {
-  literatureAuditMeta,
-  literatureReferences,
-  paperSection,
-} from '../../research/index.mjs';
+import { literatureAuditMeta } from '../../research/index.mjs';
 
 export default {
   objective: `${mathHtml('L(&theta;) = |corr(e<sub>non-target</sub>(&theta;), z<sub>proxy</sub>)|')}`,
@@ -35,11 +31,13 @@ export default {
   readingSteps: [
     {
       title: '1. Do not treat the proxy as the structural shock',
-      body: paperSection('proxy.reader.measurement'),
+      body:
+        'The external series is a clue about the target shock, not the shock itself. It may be noisy, sparse, or observed at a different frequency from the VAR.',
     },
     {
       title: '2. Keep relevance and exclusion separate',
-      body: paperSection('proxy.reader.relevance'),
+      body:
+        'Relevance asks whether the proxy contains information about the target shock. Exclusion asks whether it stays unrelated to the other shocks. The Atlas picture focuses only on exclusion.',
     },
     {
       title: '3. Read the two criterion plots together',
@@ -58,23 +56,28 @@ export default {
   literatureSections: [
     {
       title: 'Origins and the baseline external-instrument idea',
-      body: paperSection('proxy.literature.origins'),
+      body:
+        'Stock and Watson (2012, Section III) use 17 external instruments to estimate six structural shocks in a dynamic factor model. Mertens and Ravn (2013, Abstract and Section I.A) treat narratively identified personal- and corporate-tax changes as proxies for latent tax shocks that may be measured with error. Kilian and L&uuml;tkepohl (2017, Chapter 15, Section 15.2.1) show that relevance and exclusion make the proxy&ndash;residual covariance vector proportional to the target shock\'s impact vector, which identifies its direction after normalization.',
     },
     {
-      title: 'How the literature estimator differs from this display',
-      body: paperSection('proxy.literature.estimator'),
+      title: 'Identification and weak relevance',
+      body:
+        'Montiel Olea, Stock, and Watson (2021, Sections 3&ndash;4) construct Anderson&ndash;Rubin/Fieller confidence sets for impulse responses that remain valid when the external instrument is weak and coincide with standard intervals when it is strong. Miranda-Agrippino and Ricco (2023, Sections 2&ndash;6) show that full-system invertibility is unnecessary, but the target shock must be partially invertible and the instrument must satisfy limited lead&ndash;lag exogeneity. Angelini, Cavaliere, and Fanelli (2024, Abstract and Sections 2&ndash;6) show that target responses can instead be estimated by minimum distance from strong proxies for non-target shocks when their identification conditions hold.',
     },
     {
-      title: 'The main methodological developments',
-      body: paperSection('proxy.literature.developments'),
+      title: 'Bootstrap and Bayesian inference',
+      body:
+        'Jentsch and Lunsford (2019, Abstract and Sections I&ndash;II) show that the wild bootstrap used by Mertens and Ravn is invalid for Proxy-SVAR impulse responses and produces confidence intervals that are too small. Jentsch and Lunsford (2022, Abstract and Sections 1&ndash;4) prove validity of a modified residual-based moving-block bootstrap for smooth Proxy-SVAR statistics under strong proxies. Bruns and L&uuml;tkepohl (2023, Abstract and Section 1) propose a proxy-residual-based bootstrap whose simulated confidence intervals often have more accurate coverage than moving-block intervals of similar length. Arias, Rubio-Ram&iacute;rez, and Waggoner (2021, Abstract and Section 1) develop an exact finite-sample Bayesian algorithm that makes independent posterior draws and can combine proxies with zero and sign restrictions. Giacomini, Kitagawa, and Read (2022, Abstract and Section 1) extend multiple-prior robust Bayesian inference to set-identified Proxy-SVARs so results need not depend on one unrevisable prior over admissible rotations.',
     },
     {
       title: 'Important applications and variants',
-      body: paperSection('proxy.literature.applications'),
+      body:
+        'Gertler and Karadi (2015, Abstract and Introduction) use high-frequency interest-rate surprises around policy announcements as external instruments in monetary VARs. Jaroci&nacute;ski and Karadi (2020, Abstract and Introduction) separate policy and central-bank-information shocks by the sign of the announcement-window co-movement between interest rates and stock prices. K&auml;nzig (2021, Abstract and Introduction) uses oil-futures movements around OPEC announcements as an external instrument for an oil-supply-news shock. K&auml;nzig (2023, revised 2025, Abstract and Section 1) instruments a carbon-policy shock with EU ETS regulatory-event surprises measured in carbon futures prices. Braun and Br&uuml;ggemann (2023, Abstract and Section 1) combine valid or plausibly exogenous external instruments with sign restrictions in a Bayesian SVAR. Bruns, L&uuml;tkepohl, and McNeil (2025, Abstract and Section 1) show that identifying several shocks one by one can leave them correlated and propose a joint GMM estimator that enforces shock orthogonality.',
     },
     {
       title: 'Critiques and the applied diagnostic sequence',
-      body: paperSection('proxy.literature.diagnostics'),
+      body:
+        'For an applied study, inspect the event and overlap sample first, then proxy strength, exclusion and timing, the VAR information set, any multi-proxy assignment and rank restrictions, and finally the uncertainty procedure. A near-zero Atlas loss addresses only one displayed sample moment and cannot validate the full design.',
     },
   ],
   literatureQuestions: [
@@ -86,7 +89,6 @@ export default {
   ],
   literatureReferenceLabel: 'Audited reading',
   literatureReferenceMeta: literatureAuditMeta('proxy'),
-  literatureRefs: literatureReferences('proxy'),
   plotTitle: 'Proxy orthogonality objective',
   extra: 'Proxy overlap sample',
 };

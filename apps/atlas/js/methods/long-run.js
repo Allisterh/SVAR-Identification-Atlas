@@ -32,15 +32,15 @@ export default {
   readingSteps: [
     {
       title: '1. Identify the long-run object',
-      body: `The Atlas VAR contains S&amp;P 500 log growth. A response ${mathHtml('&Psi;<sub>S&amp;P,policy</sub>(h)')} is the response of log growth at horizon ${mathHtml('h')}; summing those responses gives the cumulative response of the log stock-price level. Blanchard and Quah (1989) use the same growth-to-level accumulation logic when restricting the permanent output effect of a demand shock.`,
+      body: `The Atlas VAR contains S&amp;P 500 log growth. A response ${mathHtml('&Psi;<sub>S&amp;P,policy</sub>(h)')} is the response of log growth at horizon ${mathHtml('h')}; summing those responses gives the cumulative response of the log stock-price level.`,
     },
     {
       title: '2. Follow the path, then score its endpoint',
-      body: 'Use the companion chart to see whether early positive and negative return responses offset. The left objective plot discards that path detail and retains only the absolute final cumulative value for each rotation. Kilian and Lutkepohl (2017, Chapters 10-12) frame the corresponding applied target as a long-run multiplier, while the interim IRF traces the adjustment path.',
+      body: 'Use the companion chart to see whether early positive and negative return responses offset. The left objective plot discards that path detail and retains only the absolute final cumulative value for each rotation.',
     },
     {
       title: '3. Keep finite horizon and long run separate',
-      body: 'The display stops after 24 monthly horizons. A small endpoint is a visual analogue of long-run neutrality, not evidence that the infinite-horizon multiplier is zero. A slowly decaying response could look neutral at one endpoint and move again afterward. Faust and Leeper (1997) explain why long-run conclusions can be fragile to omitted shocks, dynamic approximation, and time aggregation.',
+      body: 'The display stops after 24 monthly horizons. A small endpoint is a visual analogue of long-run neutrality, not evidence that the infinite-horizon multiplier is zero. A slowly decaying response could look neutral at one endpoint and move again afterward.',
     },
   ],
   literatureTitle: 'From the finite Atlas sum to long-run SVAR identification',
@@ -49,19 +49,19 @@ export default {
   literatureSections: [
     {
       title: 'Benchmark origin: permanent supply and transitory demand',
-      body: `Blanchard and Quah (1989) provided the canonical bivariate design for output growth and unemployment. Reduced-form covariance orthogonality supplies three restrictions; a fourth says that the aggregate-demand shock has no permanent effect on the level of output, while the aggregate-supply shock may. In modern notation, the restriction is a zero in the cumulative multiplier ${mathHtml('&Theta;(1)=&sum;<sub>h=0</sub><sup>&infin;</sup>&Theta;<sub>h</sub>')}. It selects an impact rotation that need not be recursive on impact. Their demand and supply labels come from this neutrality claim, not from a feature observed directly in the reduced-form data.`,
+      body: 'Blanchard and Quah (1989, Sections I&ndash;II) model U.S. output growth and unemployment and identify a demand disturbance by imposing that it has no long-run effect on the level of output. The covariance restrictions plus this zero identify the two structural shocks without requiring a recursive impact matrix.',
     },
     {
       title: 'Development into stationary, cointegrated, and mixed systems',
-      body: `For a stable VAR in stationary transformed variables, the structural long-run multiplier is ${mathHtml('&Theta;(1)=A(1)<sup>-1</sup>B')}. A triangular long-run multiplier can sometimes be recovered by a Cholesky factorization of the long-run covariance matrix, after which the generally nonrecursive impact matrix is backed out. In integrated and cointegrated systems, the relevant object becomes the VECM common-trend multiplier ${mathHtml('&Upsilon;=&Xi;B')}. Its rank is fixed by the cointegrating rank, so some zero permanent effects follow mechanically from stationarity or cointegration and provide no additional identification. Long-run restrictions may identify permanent shocks while leaving several transitory shocks unresolved; applied models then stack short-run zeros, long-run zeros, signs, or other restrictions. Estimation uses long-run covariance factorization, nonlinear covariance equations, QR rotation algorithms, FIML, or narrower IV procedures.`,
+      body: 'Kilian and L&uuml;tkepohl (2017, Chapter 10, Section 10.2) show that a triangular long-run multiplier in a stationary VAR can be recovered from a Cholesky factorization of the long-run covariance and then mapped back to a generally nonrecursive impact matrix. In cointegrated systems, Section 10.3 shows that the common-trend multiplier has rank K&minus;r, so zeros implied by stationarity or rank add no identifying information and long-run restrictions can leave transitory shocks unresolved.',
     },
     {
       title: 'Important applications and what they added',
-      body: 'The method expanded well beyond the original demand-supply decomposition. King, Plosser, Stock, and Watson used common trends to identify a balanced-growth shock. Gali used the claim that only technology shocks permanently affect labor productivity, opening a major debate over the response of hours and the ability of long-run SVARs to evaluate business-cycle models. Fisher separated neutral from investment-specific technology shocks. Enders and Lee distinguished real from nominal exchange-rate shocks. Beaudry and Portier combined stock prices and productivity to identify news about future productivity; the Kurmann-Mertens critique showed how cointegration can make a restriction redundant and leave infinitely many solutions. Larger monetary and oil systems often combine long-run neutrality with contemporaneous restrictions rather than relying on a purely long-run triangular scheme.',
+      body: 'King, Plosser, Stock, and Watson (1991, Abstract and Sections I&ndash;II) identify permanent productivity shocks with the common stochastic trend in output, consumption, and investment. Gal&iacute; (1999, Abstract and Section II) identifies technology shocks by assuming that only they can permanently affect labor productivity and finds that hours decline persistently after a positive technology shock. Beaudry and Portier (2006, Abstract and Sections I&ndash;II) identify a shock that moves stock prices immediately but affects productivity only with a substantial delay and interpret it as news about future technology. Kurmann and Mertens (2014, Abstract and Section I) show that this identification is not unique in the Beaudry&ndash;Portier VECMs with more than two variables because of the interaction between cointegration and long-run restrictions.',
     },
     {
       title: 'What the Atlas omits and why the method is criticized',
-      body: `The Atlas fixes one bivariate reduced form and replaces ${mathHtml('&infin;')} with 24 horizons. Applied results can change when a variable is put in levels rather than differences, when deterministic trends or breaks are handled differently, when the cointegrating rank changes, or when a finite VAR approximates an underlying VARMA poorly. Long-run multipliers are low-frequency objects, so near-unit roots and inversion of an ill-conditioned ${mathHtml('A(1)')} can magnify small estimation errors. Faust and Leeper emphasize that a low-dimensional demand or supply shock can mix many omitted shocks and that time aggregation may destroy structural orthogonality. Column signs also remain arbitrary until normalized, and a short-run sign normalization can assume the very response the long-run design meant to learn. Bootstrap, Bayesian, and joint inference must therefore reflect persistence, transformation, rank, lag, and normalization uncertainty; a small finite-horizon endpoint alone addresses none of these issues.`,
+      body: 'Faust and Leeper (1997, Sections 2&ndash;4) show that long-run identification can be unreliable because long-run effects are imprecisely estimated and because aggregation across variables or time can mix the underlying structural shocks. The Atlas uses only a finite endpoint, so it does not address persistence, transformation, rank, lag, omitted-shock, aggregation, or normalization uncertainty.',
     },
   ],
   literatureQuestions: [
@@ -70,14 +70,6 @@ export default {
     'Given the integration and cointegration ranks, does the long-run zero add identifying information or follow mechanically from the model?',
     'Are all shocks identified, or must long-run restrictions be combined with short-run zeros, signs, instruments, or other assumptions?',
     'How sensitive are the results to lag length, deterministic terms, breaks, near-unit roots, time aggregation, omitted shocks, and the inference method?',
-  ],
-  literatureRefs: [
-    'Olivier J. Blanchard and Danny Quah (1989), "The Dynamic Effects of Aggregate Demand and Supply Disturbances" - the benchmark permanent-versus-transitory long-run SVAR.',
-    'Robert G. King, Charles I. Plosser, James H. Stock, and Mark W. Watson (1991), "Stochastic Trends and Economic Fluctuations" - common trends and the balanced-growth-shock application.',
-    'Jordi Gali (1999), "Technology, Employment, and the Business Cycle" - the influential technology-shock application and starting point for a large reliability debate.',
-    'Jon Faust and Eric M. Leeper (1997), "When Do Long-Run Identifying Restrictions Give Reliable Results?" - omitted-shock, dynamic-aggregation, and time-aggregation cautions.',
-    'Paul Beaudry and Franck Portier (2006), stock-price and productivity-news identification, read together with the Kurmann-Mertens (2014) nonuniqueness critique.',
-    'Lutz Kilian and Helmut Lutkepohl (2016), Structural Vector Autoregressive Analysis, Chapters 10-12 - identification, estimation, and inference for stationary, integrated, cointegrated, and mixed long-run systems.',
   ],
   plotTitle: 'Finite-horizon cumulative neutrality loss',
   extra: 'Running cumulative S&amp;P 500 response',

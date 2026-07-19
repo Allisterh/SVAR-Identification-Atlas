@@ -1,7 +1,7 @@
 import {
   literatureAuditMeta,
   literatureReferences,
-  sectionCitations,
+  reviewedText,
 } from '../research/index.mjs';
 
 const citedSections = {
@@ -11,7 +11,7 @@ const citedSections = {
 
 for (const [elementId, sectionId] of Object.entries(citedSections)) {
   const element = document.getElementById(elementId);
-  if (element) element.insertAdjacentHTML('beforeend', sectionCitations(sectionId));
+  if (element) element.innerHTML = reviewedText(sectionId, element.innerHTML);
 }
 
 const disclosure = document.getElementById('atlas-literature-references');

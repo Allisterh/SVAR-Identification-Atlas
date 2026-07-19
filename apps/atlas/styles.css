@@ -3969,6 +3969,33 @@ input:focus-visible {
   text-decoration-color: currentColor;
 }
 
+.claim-citations {
+  display: inline;
+  margin-left: 0.3em;
+  color: var(--muted);
+  font-size: 0.76em;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.claim-citations::before {
+  content: '[';
+}
+
+.claim-citations::after {
+  content: ']';
+}
+
+.claim-citations a {
+  color: var(--accent-strong);
+  text-decoration-color: rgba(3, 105, 161, 0.35);
+  text-underline-offset: 0.12em;
+}
+
+.claim-citations a:hover {
+  text-decoration-color: currentColor;
+}
+
 .method-literature-questions .section-citations {
   margin-top: 0.22rem;
 }

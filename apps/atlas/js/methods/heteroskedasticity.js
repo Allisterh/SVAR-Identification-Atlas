@@ -29,51 +29,51 @@ export default {
     'Work from the covariance states to the selected rotation, and only then to the IRFs. The exercise is about whether one stable set of structural axes can explain two differently shaped residual clouds.',
   readingSteps: [
     {
-      title: 'Hold the structural directions fixed',
+      title: '1. Hold the structural directions fixed',
       body:
-        `Start from ${mathHtml('&Sigma;<sub>u,r</sub> = B<sub>0</sub>D<sub>r</sub>B<sub>0</sub>&prime;')}. Across regimes, ${mathHtml('B<sub>0</sub>')} is assumed constant and ${mathHtml('D<sub>r</sub>')} is diagonal; only shock variances move. If policy behaviour or contemporaneous transmission changes with the regime, this identifying story no longer follows. Stability of the structural coefficients is likewise the key maintained assumption in Rigobon (2003).`,
+        'Start from one common set of structural directions. Across regimes, those directions stay fixed while the shock variances change. If contemporaneous transmission changes too, the Atlas objective is no longer isolating one common rotation.',
     },
     {
-      title: 'Read both terms in the loss',
+      title: '2. Read both terms in the loss',
       body:
-        'For each angle, the Atlas recovers candidate shocks and computes their covariance in the early half and again in the late half. Squaring prevents positive and negative covariances from cancelling. A low total therefore means one rotation makes both regime covariance matrices close to diagonal. The same common-axis logic underlies the Markov-switching covariance design of Lanne, L&uuml;tkepohl, and Maciejowska (2010).',
+        'For each angle, the Atlas recovers candidate shocks and computes their covariance in the early half and again in the late half. Squaring prevents positive and negative covariances from cancelling. A low total means that one rotation makes both regime covariance matrices close to diagonal.',
     },
     {
-      title: 'Look for relative, not common, volatility movement',
+      title: '3. Look for relative volatility movement',
       body:
-        'Use the coloured scatter to compare the horizontal and vertical spreads. Identification needs different variance ratios across shocks. If blue and orange have the same shape and differ only by a common scale factor, the covariance-ratio eigenvalues coincide and the structural directions remain unidentified. Lewis (2021) develops rank diagnostics for whether time-varying volatility contains enough independent variation to orient the shocks.',
+        'Compare the horizontal and vertical spreads of the two coloured clouds. If one cloud is only a larger copy of the other, both shocks changed volatility in the same proportion and the rotation remains hidden. Different changes in relative width and height can reveal common axes.',
     },
     {
-      title: 'Interpret the IRFs as candidates',
+      title: '4. Treat the IRFs as unlabelled candidates',
       body:
-        'The lowest grid score chooses an orientation, but sign, scale, and column order are normalization choices. Economic restrictions, instruments, event information, or priors must still say which column is the policy shock. In an application, also report eigenvalue or rank separation and uncertainty about the volatility states. Virolainen (2025) shows how sign and zero restrictions can complete the interpretation when volatility identifies only part of the system.',
+        'The lowest grid score selects an orientation, but sign and column order remain normalization choices. The volatility pattern does not say which column is a policy shock. Economic information must supply that label.',
     },
   ],
   literatureTitle: 'From the Atlas covariance split to the literature',
   literatureLead:
-    'The literature replaces the Atlas midpoint split with explicit models or measurements of volatility states, but keeps the same central question: can one stable impact matrix diagonalize covariance information from several states because structural variances move non-proportionally?',
+    'The research literature replaces the Atlas midpoint split with explicit volatility models or dated states. Its shared question is whether several covariance patterns reveal one stable impact matrix because structural variances move differently.',
   literatureNote:
-    'The literature replaces the Atlas midpoint split with explicit models or measurements of volatility states, but keeps the same central question: can one stable impact matrix diagonalize covariance information from several states because structural variances move non-proportionally?',
+    'The research literature replaces the Atlas midpoint split with explicit volatility models or dated states. Its shared question is whether several covariance patterns reveal one stable impact matrix because structural variances move differently.',
   literatureSections: [
     {
-      title: 'Early ideas and the move into SVARs',
+      title: 'Foundations: variance paths and covariance regimes',
       body:
-        'Sentana and Fiorentini (2001) showed in a conditional-factor setting that sufficiently different variance paths can remove rotational indeterminacy. Rigobon (2003) gave the canonical covariance-regime treatment for simultaneous equations: extra covariance matrices identify stable structural slopes when relative variances change, while additional regimes provide overidentifying restrictions. Rigobon and Sack (2003) supplied an early macro-finance application to the simultaneous response of expected monetary policy and stock prices, explicitly allowing a common shock. Normandin and Phaneuf (2004) carried the logic into a monetary SVAR and used heteroskedasticity to turn familiar targeting and orthogonality restrictions into testable hypotheses rather than assumptions required for identification.',
+        'Sentana and Fiorentini (2001, Section 3.1, Proposition 3) show that when the loading covariance and idiosyncratic covariance are identified from unconditional moments and the factor-variance processes are linearly independent, the loading matrix is unique up to column signs and permutations. Rigobon (2003, Proposition 1) identifies a bivariate simultaneous-equation system from two variance regimes under stable structural slopes, uncorrelated shocks, and nonproportional covariance matrices. His Section II.A also shows that proportional regime covariance matrices do not identify the system.',
     },
     {
-      title: 'The main versions differ in how volatility is represented',
+      title: 'How the main volatility models differ',
       body:
-        'Regime designs estimate covariance matrices for externally dated or latent states. Lanne, L&uuml;tkepohl, and Maciejowska (2010) use Markov-switching covariances; L&uuml;tkepohl and Netsunajev (2017) let covariance move smoothly between limiting states. Milunovich and Yang (2013) jointly identify the impact matrix and structural ARCH/GARCH parameters when almost all shocks carry an ARCH signal. Bertsche and Braun (2022) use autocovariances of squared residuals generated by latent stochastic volatility. Lewis (2021) states the identifying information directly in unconditional autocovariances of squared innovations and supplies reduced-form rank diagnostics. Virolainen (2025) lets regime probabilities depend on the economic state and combines eigenvalue separation with sign and zero restrictions when only some shocks are statistically identified.',
+        'Lanne, L&uuml;tkepohl, and Maciejowska (2010, Abstract and Section 1) confine Markov switching to innovation covariances and assume that impulse responses are invariant across states. They show that conventional just-identifying restrictions become testable. With more than two covariance states, they also test state-invariant impact responses. Milunovich and Yang (2013, Proposition 2) give sufficient conditions for joint local identification of the impact matrix and structural ARCH parameters when shocks are nondegenerate and at most one is homoskedastic. L&uuml;tkepohl and Netsunajev (2017, Abstract and Section 1) model a gradual covariance transition whose timing is estimated rather than fixed by the researcher. Lewis (2021, Abstract and Theorems 1&ndash;3) identifies the impact matrix from autocovariances of squared reduced-form innovations without imposing a parametric law on the variance process. He also provides reduced-form rank tests of the identifying conditions. Bertsche and Braun (2022, Abstract and Section 2) use independent latent AR(1) log-variance processes for structural shocks. They develop full and partial identification with maximum-likelihood EM algorithms. Virolainen (2025, Abstract and Sections 1 and 3) lets volatility-regime probabilities depend on lagged observations. She derives sign-and-zero conditions for identifying selected shocks when full statistical identification fails.',
     },
     {
-      title: 'Applications use volatility both to identify and to test',
+      title: 'Representative applications and restriction tests',
       body:
-        'The method has been used for sovereign-bond contagion and monetary-policy/stock-market simultaneity in Rigobon\'s work; for testing recursive monetary-policy restrictions in the Markov-switching and smooth-transition SVARs; for fiscal tax and spending shocks in Lewis (2021); and for oil-market shocks in Bertsche and Braun (2022). A recurring payoff is overidentification: once volatility statistically orients the columns, recursive zeros, external-instrument relevance and exogeneity, or sign labels can be checked against the data instead of silently doing all the identifying work.',
+        'Rigobon and Sack (2003; working-paper Abstract) use stock-return heteroskedasticity to identify the Federal Reserve\'s reaction to stock-market movements despite the simultaneous response of stock prices to interest rates. Normandin and Phaneuf (2004, Abstract and Section 5) use conditional heteroskedasticity to test monetary-policy targeting and contemporaneous orthogonality restrictions. They reject both interest-rate and non-borrowed-reserve targeting in their post-1982 U.S. sample. They also reject the restrictions that make policy shocks contemporaneously orthogonal to macroeconomic variables. Lewis (2021, Abstract and Section 4) applies his method to U.S. fiscal shocks and reports peak multipliers of 0.86 for tax cuts and 0.75 for government spending. Bertsche and Braun (2022, Abstract and Section 5) use instrumental-variable restrictions as overidentifying tests after stochastic-volatility identification in an oil-market application.',
     },
     {
-      title: 'What the Atlas omits, and the central critiques',
+      title: 'Maintained assumptions and causal limits',
       body:
-        'The Atlas knows the two states, uses a bivariate finite rotation grid, estimates no volatility law, and reports no sampling uncertainty. Empirical studies must estimate or justify regimes, allow for first-step VAR uncertainty, diagnose close eigenvalues or weak rank, and decide whether more than two states are jointly diagonalizable. The strongest maintained restriction is stability of the impact matrix: if transmission changes when volatility changes, extra covariance matrices add new structural coefficients as well as new moments. Proportional variance changes, common volatility, regime misclassification, or state definitions based on realized squared shocks can also erase or contaminate the signal. Finally, statistical columns remain economically anonymous, and variance shifts are not automatically causal location-shift interventions in nonlinear models.',
+        'Montiel Olea, Plagborg-M&oslash;ller, and Qian (2022, Section IV) show that conditional shock orthogonality identifies the impact directions only when relative shock variances change by distinct amounts. Their Section V warns that higher-moment identification can be weak when the additional moments are estimated imprecisely in moderate samples. Koles&aacute;r and Plagborg-M&oslash;ller (2025, Abstract and Sections 1 and 4) show that heteroskedasticity-based estimands can be nonzero with no causal effect or have the wrong sign under nonlinear data generation. Their natural nonparametric extension of heteroskedastic identification yields wide identified sets. The Atlas knows its two states, fixes one linear bivariate system, searches a finite angle grid, and reports no sampling uncertainty; empirical work must justify the states, test volatility separation, defend stability of the impact matrix, and label the statistically oriented columns.',
     },
   ],
   literatureQuestions: [
@@ -82,19 +82,6 @@ export default {
     'Do relative variances and covariance-ratio eigenvalues separate the shocks strongly enough?',
     'How are regimes estimated, and could classification depend on the shock realizations themselves?',
     'Which information labels the statistical columns, and is inference robust to weak volatility separation?',
-  ],
-  literatureRefs: [
-    'Enrique Sentana and Gabriele Fiorentini (2001), "Identification, Estimation and Testing of Conditionally Heteroskedastic Factor Models."',
-    'Roberto Rigobon (2003), "Identification Through Heteroskedasticity," Review of Economics and Statistics 85(4): 777-792.',
-    'Roberto Rigobon and Brian Sack (2001), "Measuring the Reaction of Monetary Policy to the Stock Market," NBER Working Paper No. 8350.',
-    'Michel Normandin and Louis Phaneuf (2004), "Monetary Policy Shocks: Testing Identification Conditions Under Time-Varying Conditional Volatility."',
-    'Markku Lanne, Helmut L&uuml;tkepohl, and Katarzyna Maciejowska (2010), "Structural Vector Autoregressions with Markov Switching," Journal of Economic Dynamics and Control 34(2): 121-131.',
-    'Steven Milunovich and Mingyue Yang (2010), "On Identifying Structural VAR Models via ARCH Effects," Journal of Time Series Econometrics.',
-    'Helmut L&uuml;tkepohl and Aleksei Netsunajev (2017), "Structural Vector Autoregressions with Smooth Transition in Variances," Journal of Economic Dynamics and Control 84: 43-57.',
-    'Daniel J. Lewis (2021), "Identifying Shocks via Time-Varying Volatility," Review of Economic Studies 88(6): 3086-3124.',
-    'Dominik Bertsche and Robin Braun (2022), "Identification of Structural Vector Autoregressions by Stochastic Volatility."',
-    'Savi Virolainen (2025), "A Statistically Identified Structural Vector Autoregression with Endogenously Switching Volatility Regime."',
-    'Jos&eacute; Luis Montiel Olea, Mikkel Plagborg-M&oslash;ller, and Eric Qian (2022), "SVAR Identification from Higher Moments: Has the Simultaneous Causality Problem Been Solved?"',
   ],
   plotTitle: 'Regime covariance objective',
   extra: 'Early and late sample regimes',

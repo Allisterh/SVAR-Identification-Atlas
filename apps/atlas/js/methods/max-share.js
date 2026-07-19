@@ -31,22 +31,22 @@ export default {
     {
       title: '1. Fix the target before turning the dial',
       body:
-        'The rule assumes that the policy shock is the shock that best explains interest-rate forecast uncertainty over H periods, following the max-share idea in Uhlig (2004). A different variable, horizon, weighting, or frequency band defines a different identifying problem.',
+        'Decide which variable the shock should dominate and over how many periods. A different target, horizon, weighting, or frequency band defines a different identifying problem.',
     },
     {
       title: '2. Read the FEVD as a share',
       body:
-        'The numerator adds squared rate responses to the candidate policy shock. The denominator adds squared rate responses to all shocks. Their ratio lies between zero and one and answers how much of the H-step rate forecast error this candidate shock receives. Barsky and Sims (2011) use the same share logic for productivity news, together with a zero-impact restriction.',
+        'The numerator adds squared rate responses to the candidate policy shock. The denominator adds squared rate responses to all shocks. Their ratio lies between zero and one and answers how much of the H-step rate forecast error this candidate shock receives.',
     },
     {
       title: '3. Match the peak to the trough',
       body:
-        'The FEVD-share peak on the right must occur at the loss trough on the left because the loss is one minus the share. The selected angle is an optimizer, not a rotation that fits the reduced-form data better; Arias, Rubio-Ramirez, and Waggoner (2018) stress that such optimization is not the same object as inference over an admissible set.',
+        'The FEVD-share peak on the right must occur at the loss trough on the left because the loss is one minus the share. The selected angle wins the declared contest; it does not fit the reduced-form data better than the other rotations.',
     },
     {
       title: '4. Interpret the IRFs conditionally on the objective',
       body:
-        'The selected responses describe the shock direction that wins this contest. They do not show that the winner is a unique primitive disturbance; Carriero and Volpicella (2025) show why one-shock-at-a-time selection can mix related shocks and replace it with a joint multi-shock objective.',
+        'The selected responses describe the shock direction that wins this contest. They do not by themselves show that the winner is the only economically meaningful direction or a primitive disturbance.',
     },
   ],
   literatureTitle: 'From the Atlas FEVD peak to objective-based identification in the literature',
@@ -54,29 +54,29 @@ export default {
     'Max-share is part of a wider family of objective-based SVAR selectors. These methods choose one rotation because it maximizes a researcher-declared economic target; the target, constraints, and optimization order are therefore the identifying assumptions.',
   literatureSections: [
     {
-      title: 'Origins: maximized variance shares for output and news shocks',
+      title: 'Two benchmark variance-share designs',
       body:
-        'The max-share literature begins with Uhlig (2004), who proposed identifying a shock by the forecast-error variance share it explains. Barsky and Sims (2011) gave the approach a particularly influential economic interpretation: their technology-news shock has no contemporaneous effect on productivity and, among directions satisfying that zero restriction, explains the largest share of future productivity forecast errors. This is already richer than the Atlas because an economically motivated zero restriction and a long-horizon variance objective work together.',
+        'Uhlig (2004, Abstract) searches for two VAR shocks that together explain most of real GNP\'s k-step prediction-error variance over horizons from zero to five years. Barsky and Sims (2011, Abstract and Section 2.1) identify a technology-news shock that is orthogonal to the current TFP innovation and maximizes the sum of its contributions to future TFP forecast-error variance over a finite horizon. The second design therefore combines an impact exclusion with a future-variance objective.',
     },
     {
-      title: 'Applications and the move from one target to several',
+      title: 'Sequential and joint selection of several shocks',
       body:
-        'The approach has been used for technology and news shocks, credit shocks, inflation-target shocks, sentiment, and uncertainty or financial disturbances. Caldara, Fuentes-Albero, Gilchrist, and Zakrajsek (2016) use a closely related penalty-function method: they maximize persistent impulse-response mass rather than a FEVD share and identify uncertainty and financial shocks sequentially. Their results vary with the sequence. Carriero and Volpicella (2025) respond by selecting macro-uncertainty, financial-uncertainty, and credit-supply shocks jointly in one constrained max-share problem.',
+        'Caldara, Fuentes-Albero, Gilchrist, and Zakrajsek (2016, Sections 1 and 3.1) first choose an uncertainty shock by maximizing its target proxy\'s response over a prespecified horizon, then choose an orthogonal financial shock by maximizing the response of a financial-conditions indicator over the same horizon. They also repeat the two penalty-function steps in the reverse order. Carriero and Volpicella (2025, Section 3.1) instead jointly maximize a forecast-error-variance objective over several orthonormal shock directions.',
     },
     {
-      title: 'Important versions of the method',
+      title: 'What the joint constraints add',
       body:
-        'For a single unconstrained shock, maximizing a normalized FEVD share is a leading-eigenvector problem, unique only when the leading eigenvalue is separated and with the sign still needing a normalization. Sign, zero, or inequality restrictions turn it into a constrained rotation problem. Sequential multi-shock max-share identifies one direction and searches in its orthogonal complement for the next, so labels can depend on order. Joint max-share instead optimizes several orthogonal columns together; Carriero and Volpicella add FEVD-dominance inequalities requiring each shock to explain its own target more than the other target variables, plus optional signs and feasibility or uniqueness conditions.',
+        'Carriero and Volpicella (2025, equation 3.2) require each selected shock to contribute more to the forecast-error variance of its own target than to the variances of the other target variables. Their Proposition 3.2 gives a sufficient condition for the constrained joint problem to be non-empty. Their Proposition 3.3 gives a sufficient condition for a feasible solution to be unique when the relevant target responses satisfy the stated sign restrictions. For the Atlas\'s single unconstrained shock, the objective is simply a quadratic variance-share contest over one rotation angle.',
     },
     {
       title: 'How the Atlas differs from an empirical implementation',
       body:
-        'The Atlas fixes one bivariate reduced form, one rate target, one horizon, and one shock, then searches a finite angle grid. An empirical one-shock implementation forms a quadratic FEVD criterion and solves analytically or numerically; a multi-shock implementation solves a constrained optimization over orthogonal vectors. Bayesian applications repeat the identification step across reduced-form posterior draws and report uncertainty conditional on the objective and constraints. They also need a sign anchor, diagnostics for a tied or nearly tied optimum, and sensitivity to alternative targets and horizons.',
+        'Carriero and Volpicella\'s (2025, Algorithm 3.1) Bayesian implementation draws reduced-form VAR parameters, checks that the constrained problem is non-empty, solves the joint optimization, and repeats those steps. They note that maximum-likelihood or bootstrap draws can replace posterior draws. The Atlas fixes one bivariate reduced form, one rate target, one horizon, and one shock, then searches a finite angle grid. It illustrates the conditional optimizer rather than sampling uncertainty.',
     },
     {
-      title: 'Critiques and interpretation limits',
+      title: 'Confounding and interpretation limits',
       body:
-        'Maximizing a share does not prove that the optimizer is a primitive structural shock. A direction can win by mixing several disturbances that all move the target, especially when targets are highly correlated. One-at-a-time selection can make later shocks depend on arbitrary ordering; joint selection reduces that problem but shifts discretion to target variables, horizon, objective weights, signs, and FEVD-dominance rules. A flat or tied objective weakens the label, while a sharp optimum can still be economically misspecified. Finally, posterior or bootstrap bands usually condition on the chosen objective and linear VAR, not on uncertainty about whether that objective is the right economic definition.',
+        'Carriero and Volpicella (2025, Example 2.1) show analytically how standard one-at-a-time max-share can produce a linear combination of the data-generating shocks. Their Section 3.3 simulations compare that procedure with joint identification. Joint selection addresses that particular confounding problem, but the economic label still depends on the chosen targets, horizon, objective, signs, and dominance constraints. A sharp numerical optimum cannot establish that those assumptions are the right economic definition of the shock.',
     },
   ],
   literatureQuestions: [
@@ -85,14 +85,6 @@ export default {
     'Is the optimum unique, well separated, and stable across reduced-form draws and nearby specifications?',
     'Are several shocks selected sequentially or jointly, and how sensitive are their labels to ordering?',
     'Do the uncertainty statements condition on the chosen objective, and are alternative targets and horizons reported?',
-  ],
-  literatureRefs: [
-    'Uhlig (2004), "What Moves GNP?": an early max-share formulation that identifies a shock through the forecast-error variance it explains.',
-    'Barsky and Sims (2011), "News Shocks and Business Cycles," Journal of Monetary Economics 58(3): a no-current-productivity-effect restriction combined with maximum future productivity FEVD share.',
-    'Caldara, Fuentes-Albero, Gilchrist, and Zakrajsek (2016), "The Macroeconomic Impact of Financial and Uncertainty Shocks": a related sequential penalty-function selector based on persistent target responses rather than FEVD shares.',
-    'Carriero and Volpicella (2025), "Max Share Identification of Multiple Shocks: An Application to Uncertainty and Financial Conditions," Journal of Business and Economic Statistics 43(1): joint multi-shock optimization with FEVD-dominance restrictions.',
-    'Arias, Rubio-Ramirez, and Waggoner (2018), "Inference Based on Structural Vector Autoregressions Identified With Sign and Zero Restrictions: Theory and Applications": why an optimizer over admissible rotations is not the same object as set inference.',
-    'Kilian and Lutkepohl, Structural Vector Autoregressive Analysis, Chapters 4 and 17: FEVD construction, nonfundamentalness, and the Barsky-Sims technology-news selector.',
   ],
   plotTitle: 'Forecast-error variance share',
   extra: 'Rate FEVD share across rotation angle',

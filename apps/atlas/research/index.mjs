@@ -80,6 +80,30 @@ function sectionSources(section) {
   return Array.from(sourceIds, (id) => atlasSources[id]);
 }
 
+function claimCitations(claim) {
+  const links = claim.sources
+    .map(({ id }) => atlasSources[id])
+    .map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer" data-source-id="${escapeHtml(source.id)}">${escapeHtml(compactSourceLabel(source))}</a>`)
+    .join('; ');
+  return `<span class="claim-citations" aria-label="Sources">${links}</span>`;
+}
+
+function inlineVerifiedClaims(section, html) {
+  let output = html;
+  for (const claimId of section.claimIds) {
+    const claim = atlasClaims[claimId];
+    if (!claim || claim.evidenceContract !== 'primary-v1') continue;
+    if (!output.includes(claim.text)) {
+      throw new Error(`Atlas claim ${claimId} is not present verbatim in section ${section.id}`);
+    }
+    output = output.replace(
+      claim.text,
+      `<span class="paper-claim" data-claim-id="${escapeHtml(claimId)}" data-claim-status="verified">${claim.text}${claimCitations(claim)}</span>`,
+    );
+  }
+  return output;
+}
+
 export function sectionCitations(id) {
   const section = atlasSections[id];
   if (!section) throw new Error(`Unknown Atlas citation section: ${id}`);
@@ -109,7 +133,19 @@ export function citedText(id, html) {
   if (section.renderMode !== 'citations-only') {
     throw new Error(`Atlas citation section ${id} does not accept authored text`);
   }
+  const hasPrimaryClaims = section.claimIds.some((claimId) => atlasClaims[claimId]?.evidenceContract === 'primary-v1');
+  if (hasPrimaryClaims) {
+    return `<span class="paper-section" data-paper-section-id="${escapeHtml(id)}" data-citation-section-id="${escapeHtml(id)}">${inlineVerifiedClaims(section, html)}</span>`;
+  }
   return `<span class="paper-section" data-paper-section-id="${escapeHtml(id)}">${html}</span>${sectionCitations(id)}`;
+}
+
+export function reviewedText(id, html) {
+  const section = atlasSections[id];
+  if (!section) throw new Error(`Unknown Atlas reviewed section: ${id}`);
+  if (section.renderMode === 'audit-only') return html;
+  if (section.renderMode === 'citations-only') return citedText(id, html);
+  throw new Error(`Atlas reviewed section ${id} requires claim-text rendering`);
 }
 
 export function literatureReferences(page) {

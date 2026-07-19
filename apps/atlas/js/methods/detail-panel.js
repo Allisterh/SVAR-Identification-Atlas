@@ -1,4 +1,4 @@
-import { citedText, literatureAuditMeta, literatureReferences } from '../../research/index.mjs';
+import { literatureAuditMeta, literatureReferences, reviewedText } from '../../research/index.mjs';
 
 function renderReadingSteps(method, content) {
   const outputKind = method.selectionMode === 'set' ? 'an admissible set' : 'one selected candidate';
@@ -32,7 +32,7 @@ function renderReadingSteps(method, content) {
           <span class="method-reading-steps__number">${index + 1}</span>
           <div>
             <h3>${String(step.title).replace(/^\d+\.\s*/, '')}</h3>
-            <p>${method.id === 'proxy' ? step.body : citedText(`${method.id}.reader.${index}`, step.body)}</p>
+            <p>${reviewedText(`${method.id}.reader.${index}`, step.body)}</p>
           </div>
         </li>`
       )
@@ -50,7 +50,7 @@ function renderLiteratureSections(method, content, literatureNote) {
       .map(
         (section, index) => `<article class="method-literature-section">
           <h3>${section.title}</h3>
-          <p>${method.id === 'proxy' ? section.body : citedText(`${method.id}.literature.${index}`, section.body)}</p>
+          <p>${reviewedText(`${method.id}.literature.${index}`, section.body)}</p>
         </article>`
       )
       .join('')}

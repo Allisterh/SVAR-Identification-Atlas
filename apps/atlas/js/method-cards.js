@@ -9,7 +9,7 @@ import {
   selectedHighlight,
   selectedOrAcceptedIndex,
 } from './data-utils.js';
-import { matrixHtml, mathHtml } from './formulas.js?v=20260716-source-gate1';
+import { matrixHtml, mathHtml } from './formulas.js?v=20260719-source-gate2';
 import {
   drawIrfCloud,
   drawLineChart,
@@ -19,8 +19,8 @@ import {
   theme,
   zScores,
 } from './plotting.js';
-import methodContentById from './methods/index.js?v=20260716-source-gate1';
-import { renderMethodCardShell } from './methods/card-shell.js?v=20260716-source-gate1';
+import methodContentById from './methods/index.js?v=20260719-source-gate2';
+import { renderMethodCardShell } from './methods/card-shell.js?v=20260719-source-gate2';
 
 const methodStates = new Map();
 const controls = new Map();

@@ -31,22 +31,22 @@ export default {
     {
       title: 'Remember what whitening has already achieved',
       body:
-        'Every angle preserves the reduced-form covariance and therefore produces uncorrelated, unit-variance candidate shocks. A low correlation in the scatter is not evidence in favour of one angle; it is built into the construction for all angles. Lanne, Meitz, and Saikkonen (2017) use this whitening step before non-Gaussian likelihood information chooses an orientation.',
+        'Every angle preserves the reduced-form covariance and therefore produces uncorrelated, unit-variance candidate shocks. A low correlation in the scatter is not evidence in favour of one angle; it is built into the construction for all angles.',
     },
     {
       title: 'Decode the two mixed moments',
       body:
-        `The term ${mathHtml('E[e<sub>1</sub><sup>2</sup>e<sub>2</sub>]')} asks whether the magnitude of shock 1 is related to the sign of shock 2; ${mathHtml('E[e<sub>1</sub>e<sub>2</sub><sup>2</sup>]')} reverses the roles. Independence and zero means make both vanish. Squaring them creates a non-negative loss. Guay (2020) builds a fuller SVAR procedure from broader collections of third- and fourth-moment restrictions and their ranks.`,
+        `The term ${mathHtml('E[e<sub>1</sub><sup>2</sup>e<sub>2</sub>]')} asks whether the magnitude of shock 1 is related to the sign of shock 2; ${mathHtml('E[e<sub>1</sub>e<sub>2</sub><sup>2</sup>]')} reverses the roles. Independence and zero means make both vanish. Squaring them creates a non-negative loss.`,
     },
     {
       title: 'Treat a low score as a narrow diagnostic',
       body:
-        'Move the dial and compare the objective curve with the scatter. A low value says only that these two coskewness restrictions fit. Symmetric but dependent shocks can also score near zero, so a real analysis would add fourth moments, likelihood or density contrasts, and formal independence and Gaussianity checks. Drautzburg and Wright (2023) take a conservative version of this logic by inverting independence tests to refine, rather than automatically replace, a sign-restricted set.',
+        'Move the dial and compare the objective curve with the scatter. A low value says only that these two coskewness restrictions fit. Symmetric but dependent shocks can also score near zero, so a real analysis would add fourth moments, likelihood or density contrasts, and formal independence and Gaussianity checks.',
     },
     {
       title: 'Label and interpret the chosen column separately',
       body:
-        'The minimizer is an anonymous independent-component orientation, up to sign and permutation. Before calling a column monetary policy, use economic information to fix its sign and label, then examine how sensitive the IRFs are to alternative moments, densities, samples, and weak-identification procedures. Keweloh and Wang (2025) illustrate this separation by combining higher-moment orientation with uncertain economically motivated short-run restrictions.',
+        'The minimizer is an anonymous independent-component orientation, up to sign and permutation. Before calling a column monetary policy, use economic information to fix its sign and label, then examine how sensitive the IRFs are to alternative moments, densities, samples, and weak-identification procedures.',
     },
   ],
   literatureTitle: 'From the Atlas coskewness score to the literature',
@@ -58,22 +58,22 @@ export default {
     {
       title: 'Origins: ICA theory becomes an SVAR identification argument',
       body:
-        'The theorem behind the method comes from the Darmois-Skitovich and Comon ICA tradition: linear mixtures of mutually independent components are unique up to scale and permutation when at most one component is Gaussian. Chen and Bickel (2006) developed efficient semiparametric ICA with estimated density scores, while Bonhomme and Robin (2009) showed how second-to-fourth cumulants can recover independent factors in noisy measurement systems. Lanne, Meitz, and Saikkonen (2017) translated the result into a dynamic SVAR, established standard maximum-likelihood inference, and made conventional short-run restrictions testable. Gourieroux, Monfort, and Renne (2017) developed pseudo-likelihood inference that can remain consistent with deliberately misspecified shock densities when the chosen scores still identify the rotation.',
+        'Comon (1994, Theorem 11 and Corollary 13) shows that, in the linear ICA model, mutually independent non-deterministic components with at most one Gaussian component are recovered only up to scale and permutation. Chen and Bickel (2006) construct a semiparametrically efficient ICA estimator using estimated density scores. Bonhomme and Robin (2009) show that second-to-fourth moments can identify factor loadings in a noisy linear factor model. Lanne, Meitz, and Saikkonen (2017) carry independent non-Gaussian identification into a dynamic SVAR and derive maximum-likelihood estimation, conventional inference, and tests of economic restrictions. Gouriéroux, Monfort, and Renne (2017) establish consistency and asymptotic inference for orthogonally constrained multi-unit pseudo-maximum likelihood under conditions on the chosen pseudo-densities.',
     },
     {
       title: 'The main estimator families use different amounts of shape information',
       body:
-        'Parametric likelihood uses a full shock-density family, often Student-t; pseudo-likelihood uses convenient non-Gaussian scores; semiparametric and kernel methods estimate scores more flexibly; and finite or Bayesian mixtures learn asymmetric and heavy-tailed marginals at higher computational cost. Moment methods expose the identifying equations directly. Guay (2020) uses ranks of reduced-form coskewness and excess-cokurtosis matrices to determine whether the whole system or only a subsystem is identified. Keweloh (2021) turns selected second-, third-, and fourth-moment restrictions into SVAR-GMM. FastICA, JADE, and related algorithms are computational choices, not the identification theorem itself; their contrast, normalization, and inferential theory still matter.',
+        'Lewis (2025) surveys likelihood, pseudo-likelihood, semiparametric, algorithmic, and moment-based routes that use different amounts of distributional information. Guay (2020) uses ranks of reduced-form coskewness and excess-cokurtosis matrices to diagnose whether the whole system or only a subsystem is identified. Keweloh (2021) constructs SVAR-GMM from covariance, coskewness, and cokurtosis restrictions under independent non-Gaussian shocks. Hafner, Herwartz, and Wang (2025) estimate shock densities with kernels and extend their likelihood framework to partial independence when only some shocks are credible independent components.',
     },
     {
       title: 'Later work combines statistical and economic information',
       body:
-        'Drautzburg and Wright (2023) invert independence tests to refine a sign-restricted identified set, so weak or Gaussian higher-moment information falls back toward the original set rather than forcing a fragile point estimate. Keweloh and Wang (2025) shrink toward uncertain short-run zeros while allowing higher moments to reject them, and show that some skewness identification survives under mean independence rather than full independence. Applications include monetary-policy and stock-price interactions in Lanne, Meitz, and Saikkonen; Guay\'s partially identified U.S. fiscal system; Jarocinski\'s (2024) four high-frequency FOMC shocks; and Braun\'s (2023) Bayesian nonparametric decomposition of oil supply and demand shocks.',
+        'Drautzburg and Wright (2023) invert higher-moment and nonparametric independence tests to refine a sign-restricted set; in Gaussian or weak-signal cases the refinement has little bite instead of forcing a point estimate. Keweloh and Wang (2025) use adaptive ridge shrinkage toward possibly invalid short-run restrictions, so valid restrictions can improve efficiency while invalid restrictions lose asymptotic influence; their skewness result needs mean independence rather than full independence. Lanne, Meitz, and Saikkonen (2017) apply their model to U.S. monetary-policy and stock-market interactions and reject a recursive impact structure. Guay (2020) finds the U.S. tax-shock subsystem identified while the spending-shock subsystem remains underidentified. Braun (2023) estimates a Bayesian semiparametric oil-market SVAR with Dirichlet-process mixtures for the marginal shock distributions. Jarociński (2024) separates four shocks from financial-market reactions to FOMC announcements using an independent fat-tailed Student-t specification.',
     },
     {
       title: 'What the Atlas omits, and the central critiques',
       body:
-        'The Atlas uses only two bivariate third moments on a finite grid. It is not a full independence test, likelihood, density estimator, Gaussianity test, rank diagnostic, or weak-identification-robust confidence procedure. Near-Gaussian shocks make every version weak, and sample third and fourth moments can be very noisy. Mutual independence is also much stronger than the usual SVAR assumption of uncorrelated shocks: shared stochastic volatility can produce non-Gaussian marginals while violating independence and flattening or misdirecting ICA criteria. Sign and permutation ambiguity remains even with sharp statistical identification. Finally, all these linear ICA claims maintain a linear mixing model; unrestricted nonlinear transformations can destroy the causal interpretation, so non-Gaussianity is not a stand-alone nonparametric solution to simultaneous causality.',
+        'The Atlas uses only two bivariate third moments on a finite grid; it is not a full independence test, likelihood, rank diagnostic, or confidence procedure. Montiel Olea, Plagborg-Møller, and Qian (2022) show that common stochastic volatility can leave shocks uncorrelated but dependent, so a linear ICA procedure may fail to recover a structurally interpretable object. Mesters and Zwiernik (2024) show that selected higher-order tensor restrictions can identify linear mixtures up to signed permutation in common-variance and other non-independent component models, but this requires a dependence pattern matched to those restrictions. Lewis (2025) emphasizes that small departures from Gaussianity can yield weak identification in realistic samples and that statistical information alone leaves shock labels unresolved. Kolesár and Plagborg-Møller (2025) show that latent-shock identification through non-Gaussianity is highly sensitive to departures from linearity and generally lacks a meaningful causal summary in an unrestricted nonlinear model.',
     },
   ],
   literatureQuestions: [
@@ -82,20 +82,6 @@ export default {
     'Could common stochastic volatility or other cross-shock dependence violate the maintained assumptions?',
     'How are sign and permutation ambiguities converted into economic shock labels?',
     'How does inference handle weak non-Gaussianity, noisy higher moments, and possible nonlinear misspecification?',
-  ],
-  literatureRefs: [
-    'Daniel J. Lewis (2025), "Identification Based on Higher Moments in Macroeconometrics," Annual Review of Economics 17: 665-693.',
-    'Aiyou Chen and Peter J. Bickel (2006), "Efficient Independent Component Analysis," Annals of Statistics 34(6): 2825-2855.',
-    'St&eacute;phane Bonhomme and Jean-Marc Robin (2009), "Consistent Noisy Independent Component Analysis," Journal of Econometrics 149(1): 12-25.',
-    'Markku Lanne, Mika Meitz, and Pentti Saikkonen (2017), "Identification and Estimation of Non-Gaussian Structural Vector Autoregressions," Journal of Econometrics 196(2): 288-304.',
-    'Christian Gouri&eacute;roux, Alain Monfort, and Jean-Paul Renne (2017), "Statistical Inference for Independent Component Analysis: Application to Structural VAR Models," Journal of Econometrics 196(1): 111-126.',
-    'Alain Guay (2020), "Identification of Structural Vector Autoregressions Through Higher Unconditional Moments"; Sascha A. Keweloh (2021), "A Generalized Method of Moments Estimator for Structural Vector Autoregressions Based on Higher Moments."',
-    'Jos&eacute; Luis Montiel Olea, Mikkel Plagborg-M&oslash;ller, and Eric Qian (2022), "SVAR Identification from Higher Moments: Has the Simultaneous Causality Problem Been Solved?"',
-    'Thorsten Drautzburg and Jonathan H. Wright (2023), "Refining Set-Identification in VARs Through Independence."',
-    'Robin Braun (2023), "The Importance of Supply and Demand for Oil Prices: Evidence from Non-Gaussianity."',
-    'Marek Jaroci&#324;ski (2024), "Estimating the Fed\'s Unconventional Policy Shocks."',
-    'Sascha A. Keweloh and Shu Wang (2025), "Uncertain Short-Run Restrictions and Statistically Identified Structural Vector Autoregressions."',
-    'Michal Kolesar and Mikkel Plagborg-M&oslash;ller (2025), "Dynamic Causal Effects in a Nonlinear World: The Good, the Bad, and the Ugly."',
   ],
   plotTitle: 'Higher-order dependence objective',
   extra: 'Recovered-shock scatter',
