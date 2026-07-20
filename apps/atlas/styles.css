@@ -412,6 +412,82 @@ body.page-ready .page-shell {
   font-family: var(--font-heading);
 }
 
+.atlas-hero {
+  margin-bottom: 0.85rem;
+}
+
+.project-note {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+  padding: 1.25rem 1.35rem;
+  overflow: hidden;
+  border: 1px solid rgba(3, 105, 161, 0.22);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.72), rgba(255, 255, 255, 0.82));
+  box-shadow: var(--shadow-sm);
+}
+
+.project-note::after {
+  content: '';
+  position: absolute;
+  top: -85px;
+  right: -65px;
+  width: 190px;
+  height: 190px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.14), transparent 70%);
+  pointer-events: none;
+}
+
+.project-note__icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-top: 0.1rem;
+  border-radius: 999px;
+  color: white;
+  background: var(--accent-strong);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.project-note__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.45rem;
+  max-width: 88ch;
+}
+
+.project-note__eyebrow {
+  color: var(--accent-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.project-note h2 {
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+}
+
+.project-note p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+.project-note a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-underline-offset: 0.18em;
+}
+
 .section-card {
   padding: 1.65rem;
   margin-bottom: 1.4rem;
@@ -3195,6 +3271,11 @@ input:focus-visible {
   .hero,
   .section-card {
     padding: 1.2rem;
+  }
+
+  .project-note {
+    grid-template-columns: 1fr;
+    padding: 1.1rem 1.2rem;
   }
 
   .method-page-shell > .hero {
