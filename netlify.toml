@@ -1,6 +1,6 @@
 [build]
   publish = "apps/atlas"
-  command = ""
+  command = "node apps/atlas/source/generate_seo_pages.mjs"
 
 [[redirects]]
   from = "/*"

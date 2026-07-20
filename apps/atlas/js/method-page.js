@@ -7,8 +7,10 @@ import methodContentById from './methods/index.js?v=20260719-source-gate2';
 import { renderAtlasNextCard, renderAtlasTimeline } from './timeline.js?v=20260715-editorial-layout1';
 
 const params = new URLSearchParams(window.location.search);
-const requestedMethodId = params.get('method') ?? 'recursive';
+const methodPathMatch = window.location.pathname.match(/\/methods\/([^/]+)(?:\/index\.html)?\/?$/);
+const requestedMethodId = params.get('method') ?? methodPathMatch?.[1] ?? 'recursive';
 const matlabReplicationEnabled = isAtlasFeatureEnabled('matlabReplication');
+const ATLAS_URL = 'https://saschakew.github.io/SVAR-Identification-Atlas';
 
 applyAtlasFeatureVisibility();
 
@@ -24,7 +26,35 @@ function validMethodId(methodId) {
 
 function decorateMethodPage(method) {
   const content = methodContentById[method.id];
-  document.title = `${method.label} - SVAR Identification Atlas`;
+  const title = `${method.label} SVAR Identification | SVAR Identification Atlas`;
+  const description = method.summary;
+  const canonicalUrl = `${ATLAS_URL}/methods/${method.id}/`;
+  const imageUrl = `${ATLAS_URL}/source/matlab/generated/${method.id}.png`;
+  const imageAlt = `${method.label} identification diagnostic in the SVAR Identification Atlas`;
+
+  document.title = title;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+  let canonical = document.getElementById('seo-canonical');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.id = 'seo-canonical';
+    canonical.rel = 'canonical';
+    document.head.append(canonical);
+  }
+  canonical.setAttribute('href', canonicalUrl);
+  document.getElementById('seo-og-title')?.setAttribute('content', title);
+  document.getElementById('seo-og-description')?.setAttribute('content', description);
+  document.getElementById('seo-og-url')?.setAttribute('content', canonicalUrl);
+  document.getElementById('seo-og-image')?.setAttribute('content', imageUrl);
+  document.getElementById('seo-og-image-alt')?.setAttribute('content', imageAlt);
+  document.getElementById('seo-twitter-title')?.setAttribute('content', title);
+  document.getElementById('seo-twitter-description')?.setAttribute('content', description);
+  document.getElementById('seo-twitter-image')?.setAttribute('content', imageUrl);
+  document.getElementById('seo-twitter-image-alt')?.setAttribute('content', imageAlt);
+  const structuredData = document.getElementById('seo-structured-data');
+  if (structuredData) {
+    structuredData.textContent = JSON.stringify(methodStructuredData(method, description, canonicalUrl, imageUrl));
+  }
   document.getElementById('method-page-title').textContent = method.label;
   document.getElementById('method-page-summary').innerHTML =
     content.cardIntro ||
@@ -44,6 +74,59 @@ function decorateMethodPage(method) {
       <span class="hero-meta__label">Result</span>
       <span class="hero-meta__value">${method.comparisonOutput}</span>
     </div>`;
+}
+
+function methodStructuredData(method, description, canonicalUrl, imageUrl) {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'LearningResource',
+        '@id': `${canonicalUrl}#learning-resource`,
+        url: canonicalUrl,
+        name: `${method.label} SVAR Identification`,
+        description,
+        learningResourceType: 'Interactive visualization',
+        educationalUse: ['Instruction', 'Research'],
+        about: [
+          { '@type': 'Thing', name: `${method.label} identification` },
+          { '@type': 'Thing', name: 'Structural vector autoregression' },
+        ],
+        isAccessibleForFree: true,
+        inLanguage: 'en',
+        image: imageUrl,
+        author: {
+          '@type': 'Person',
+          '@id': 'https://sascha-keweloh.com/#person',
+          name: 'Sascha Keweloh',
+          url: 'https://sascha-keweloh.com/',
+        },
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${ATLAS_URL}/#website`,
+          name: 'SVAR Identification Atlas',
+          url: `${ATLAS_URL}/`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'SVAR Identification Atlas',
+            item: `${ATLAS_URL}/`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: `${method.label} identification`,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
+  };
 }
 
 function renderMethodEditorialSections(method) {
@@ -219,7 +302,7 @@ function bindResize() {
 bootPage(async () => {
   const methodId = validMethodId(requestedMethodId);
   if (methodId !== requestedMethodId) {
-    history.replaceState(null, '', `method.html?method=${methodId}`);
+    history.replaceState(null, '', `methods/${methodId}/`);
   }
   renderAtlasTimeline('atlas-timeline', methodId);
   renderAtlasNextCard('atlas-next-card', methodId);

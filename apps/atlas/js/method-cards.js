@@ -212,7 +212,7 @@ export function renderMethodLinks(mountId, options = {}) {
   }
   const links = methodList
     .map((method, index) => {
-      const href = options.useMethodPages ? `method.html?method=${method.id}` : `#${methodCardId(method.id)}`;
+      const href = options.useMethodPages ? `methods/${method.id}/` : `#${methodCardId(method.id)}`;
       const label = options.numbered ? `<span class="method-link-list__index">${index + 1}</span>${method.label}` : method.label;
       return `<a href="${href}">${label}</a>`;
     })

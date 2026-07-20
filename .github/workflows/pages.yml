@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v7
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
+      - name: Generate SEO entry pages
+        run: node apps/atlas/source/generate_seo_pages.mjs
       - name: Upload Atlas artifact
         uses: actions/upload-pages-artifact@v5
         with:

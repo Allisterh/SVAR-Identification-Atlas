@@ -20,7 +20,7 @@ export function atlasSteps() {
       id: method.id,
       label: method.label,
       shortLabel: shortLabels[method.id] ?? method.label,
-      href: `method.html?method=${method.id}`,
+      href: `methods/${method.id}/`,
     })),
   ];
 }

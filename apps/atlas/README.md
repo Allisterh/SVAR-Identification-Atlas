@@ -35,6 +35,8 @@ From the repository root:
   - Atlas publication gate for vault/BibTeX agreement, public DOI metadata, inline citation placement, audit-only coverage, section hashes, and report freshness; run `node source/check_atlas_sources.mjs` from this directory.
 - `source/export_static_figures.py`
   - Reproducible exporter for portable figures under `exports/static-figures`.
+- `source/generate_seo_pages.mjs`
+  - Generates the eight crawlable method entry pages plus `sitemap.xml` from the shared method template and data registry. Run it after editing `method.html` or method labels and summaries; use `--check` to verify that checked-in outputs are current.
 
 ## Feature Flags
 
