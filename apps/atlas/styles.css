@@ -19,6 +19,13 @@
   --accent-warm: #f97316;
   --accent-soft: rgba(14, 165, 233, 0.12);
   --success: #14b8a6;
+  --chart-grid: rgba(15, 35, 62, 0.09);
+  --chart-grid-vertical: rgba(15, 35, 62, 0.055);
+  --chart-axis: rgba(15, 35, 62, 0.38);
+  --chart-zero: rgba(15, 35, 62, 0.52);
+  --chart-plot-bg: rgba(248, 251, 255, 0.72);
+  --chart-band: #0ea5e9;
+  --chart-cloud-median: #607995;
   --math-font: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
   --shadow-lg: 0 30px 80px rgba(15, 35, 62, 0.14);
   --shadow-md: 0 18px 48px rgba(15, 35, 62, 0.1);
@@ -4386,5 +4393,91 @@ input:focus-visible {
 
   .derivation-row {
     gap: 0.3rem;
+  }
+}
+
+/* Unified figure system: one visual grammar for overview and method pages. */
+.plot-card {
+  position: relative;
+  padding: clamp(0.82rem, 1.2vw, 1rem);
+  overflow: hidden;
+  border-color: rgba(15, 35, 62, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 251, 255, 0.9));
+  box-shadow: 0 14px 38px rgba(15, 35, 62, 0.055);
+}
+
+.plot-card::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+}
+
+.plot-card canvas {
+  position: relative;
+  z-index: 1;
+}
+
+.plot-card--interactive canvas {
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+.plot-tooltip {
+  z-index: 4;
+  border-color: rgba(15, 35, 62, 0.12);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 16px 38px rgba(15, 35, 62, 0.14);
+  backdrop-filter: blur(14px);
+}
+
+.scatter-grid,
+.setup-irf-grid,
+.method-irf-grid,
+.method-card__plot-grid {
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+.method-irf-grid .plot-card canvas {
+  height: 300px;
+}
+
+.plot-card--fill {
+  align-self: start;
+}
+
+.plot-card--fill canvas {
+  flex: none;
+  min-height: 360px;
+  height: clamp(360px, 34vw, 460px);
+}
+
+@media (min-width: 761px) and (max-width: 1399px) {
+  .method-cockpit-root {
+    position: static;
+    top: auto;
+    z-index: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .plot-card {
+    padding: 0.65rem;
+  }
+
+  .method-irf-grid .plot-card canvas,
+  .plot-card canvas,
+  .plot-card--wide canvas {
+    height: 280px;
+  }
+
+  .plot-card--fill canvas {
+    min-height: 330px;
+    height: 330px;
   }
 }

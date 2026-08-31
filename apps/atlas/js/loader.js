@@ -1,4 +1,4 @@
-import { finiteDomain, rgba, theme, zScores } from './plotting.js';
+import { finiteDomain, rgba, theme, zScores } from './plotting.js?v=20260831-figure-system2';
 
 const DEFAULT_MINIMUM_MS = 3000;
 const REDUCED_MOTION_MINIMUM_MS = 360;

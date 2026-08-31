@@ -1,14 +1,20 @@
 const cleanupMap = new WeakMap();
+const plainTextCache = new Map();
 
 export function theme(name, fallback) {
   return (getComputedStyle(document.documentElement).getPropertyValue(name) || fallback).trim();
 }
 
 export function rgba(hex, alpha) {
-  if (!hex.startsWith('#')) {
-    return hex;
+  const color = String(hex ?? '').trim();
+  const rgbMatch = color.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
+  if (rgbMatch) {
+    return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
   }
-  const normalized = hex.replace('#', '');
+  if (!color.startsWith('#')) {
+    return color;
+  }
+  const normalized = color.replace('#', '');
   const full = normalized.length === 3 ? normalized.split('').map((char) => char + char).join('') : normalized;
   const numeric = Number.parseInt(full, 16);
   return `rgba(${(numeric >> 16) & 255}, ${(numeric >> 8) & 255}, ${numeric & 255}, ${alpha})`;
@@ -60,6 +66,64 @@ function canvasFont(size, weight = 400) {
   return `${weight} ${size}px ${theme('--font-body', 'Segoe UI, sans-serif')}`;
 }
 
+function plainCanvasText(value) {
+  const source = String(value ?? '');
+  if (!/[<&]/.test(source)) {
+    return source;
+  }
+  if (plainTextCache.has(source)) {
+    return plainTextCache.get(source);
+  }
+  const decoder = document.createElement('span');
+  decoder.innerHTML = source;
+  const text = decoder.textContent ?? source;
+  plainTextCache.set(source, text);
+  return text;
+}
+
+function wrapCanvasText(ctx, text, maxWidth, maxLines = 2) {
+  const words = plainCanvasText(text).trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) {
+    return [];
+  }
+
+  const lines = [];
+  let current = words.shift();
+  while (words.length > 0) {
+    const next = words[0];
+    if (ctx.measureText(`${current} ${next}`).width <= maxWidth) {
+      current += ` ${words.shift()}`;
+      continue;
+    }
+    lines.push(current);
+    current = words.shift();
+    if (lines.length === maxLines - 1) {
+      current += words.length ? ` ${words.join(' ')}` : '';
+      words.length = 0;
+    }
+  }
+  lines.push(current);
+
+  if (lines.length > maxLines) {
+    lines.length = maxLines;
+  }
+  const lastIndex = lines.length - 1;
+  if (ctx.measureText(lines[lastIndex]).width > maxWidth) {
+    let clipped = lines[lastIndex];
+    while (clipped.length > 1 && ctx.measureText(`${clipped}…`).width > maxWidth) {
+      clipped = clipped.slice(0, -1);
+    }
+    lines[lastIndex] = `${clipped.trimEnd()}…`;
+  }
+  return lines;
+}
+
+function drawCanvasTextBlock(ctx, text, { x, y, maxWidth, lineHeight, maxLines = 2 }) {
+  const lines = wrapCanvasText(ctx, text, maxWidth, maxLines);
+  lines.forEach((line, index) => ctx.fillText(line, x, y + index * lineHeight));
+  return lines.length ? y + (lines.length - 1) * lineHeight : y;
+}
+
 function setupCanvas(canvas) {
   if (!canvas) {
     return null;
@@ -106,6 +170,9 @@ function bindCanvas(canvas, handlers) {
 
 function formatTick(value) {
   const abs = Math.abs(value);
+  if (abs < 5e-7) {
+    return '0';
+  }
   if (abs >= 100) {
     return value.toFixed(0);
   }
@@ -121,19 +188,58 @@ function formatTick(value) {
 function drawFrame(ctx, width, height, config) {
   const text = theme('--text', '#11233d');
   const muted = theme('--muted', '#5b6f8d');
-  const grid = rgba(theme('--border-strong', '#2a3354'), 0.72);
-  const plot = { left: 62, right: width - 22, top: 76, bottom: height - 50 };
+  const grid = theme('--chart-grid', 'rgba(15, 35, 62, 0.09)');
+  const gridVertical = theme('--chart-grid-vertical', 'rgba(15, 35, 62, 0.06)');
+  const axis = theme('--chart-axis', 'rgba(15, 35, 62, 0.38)');
+  const plotBackground = theme('--chart-plot-bg', 'rgba(248, 251, 255, 0.68)');
+  const compact = width < 480;
+  const left = compact ? 54 : 62;
+  const right = width - (compact ? 14 : 22);
+  const bottom = height - (compact ? 44 : 50);
+  const headerMaxWidth = width - (compact ? 24 : 32);
 
   ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = text;
-  ctx.font = canvasFont(14, 700);
-  ctx.fillText(config.title, 16, 24);
+  ctx.font = canvasFont(compact ? 14 : 15, 800);
+  let headerBottom = drawCanvasTextBlock(ctx, config.title, {
+    x: compact ? 12 : 16,
+    y: 23,
+    maxWidth: headerMaxWidth,
+    lineHeight: compact ? 16 : 18,
+    maxLines: 2,
+  });
 
   if (config.subtitle) {
     ctx.fillStyle = muted;
-    ctx.font = canvasFont(11, 400);
-    ctx.fillText(config.subtitle, 16, 43);
+    ctx.font = canvasFont(compact ? 10.5 : 11, 500);
+    headerBottom = drawCanvasTextBlock(ctx, config.subtitle, {
+      x: compact ? 12 : 16,
+      y: headerBottom + (compact ? 16 : 19),
+      maxWidth: headerMaxWidth,
+      lineHeight: compact ? 14 : 15,
+      maxLines: 2,
+    });
   }
+
+  if (config.legendItems?.length) {
+    headerBottom = drawLegend(ctx, config.legendItems, {
+      left,
+      right,
+      y: headerBottom + (compact ? 16 : 18),
+      compact,
+    });
+  }
+
+  const requestedTop = Math.max(compact ? 66 : 70, headerBottom + (compact ? 22 : 24));
+  const plot = {
+    left,
+    right,
+    top: Math.min(requestedTop, bottom - 74),
+    bottom,
+  };
+
+  ctx.fillStyle = plotBackground;
+  ctx.fillRect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
 
   ctx.strokeStyle = grid;
   ctx.lineWidth = 1;
@@ -144,6 +250,7 @@ function drawFrame(ctx, width, height, config) {
     ctx.lineTo(plot.right, y);
     ctx.stroke();
   }
+  ctx.strokeStyle = gridVertical;
   for (let index = 0; index <= 4; index += 1) {
     const x = plot.left + ((plot.right - plot.left) * index) / 4;
     ctx.beginPath();
@@ -152,7 +259,7 @@ function drawFrame(ctx, width, height, config) {
     ctx.stroke();
   }
 
-  ctx.strokeStyle = rgba(text, 0.5);
+  ctx.strokeStyle = axis;
   ctx.beginPath();
   ctx.moveTo(plot.left, plot.top);
   ctx.lineTo(plot.left, plot.bottom);
@@ -160,34 +267,46 @@ function drawFrame(ctx, width, height, config) {
   ctx.stroke();
 
   ctx.fillStyle = muted;
-  ctx.font = canvasFont(11, 600);
-  ctx.fillText(config.yLabel, 16, plot.top - 10);
-  ctx.fillText(config.xLabel, plot.right - ctx.measureText(config.xLabel).width, height - 14);
+  ctx.font = canvasFont(compact ? 10 : 10.5, 700);
+  const yLabel = plainCanvasText(config.yLabel);
+  const xLabel = plainCanvasText(config.xLabel);
+  ctx.fillText(yLabel, plot.left, plot.top - 9);
+  ctx.fillText(xLabel, plot.right - ctx.measureText(xLabel).width, height - 14);
 
   return plot;
 }
 
-function drawLegend(ctx, series, plot) {
-  let x = plot.left;
-  const y = 58;
+function drawLegend(ctx, series, bounds) {
+  let x = bounds.left;
+  let y = bounds.y;
+  const rowHeight = bounds.compact ? 16 : 18;
   series.forEach((item) => {
+    const label = plainCanvasText(item.label);
+    ctx.font = canvasFont(bounds.compact ? 10 : 10.5, 650);
+    const itemWidth = 34 + ctx.measureText(label).width + 18;
+    if (x > bounds.left && x + itemWidth > bounds.right) {
+      x = bounds.left;
+      y += rowHeight;
+    }
     ctx.strokeStyle = item.color;
     ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(x, y - 4);
-    ctx.lineTo(x + 24, y - 4);
+    ctx.lineTo(x + 22, y - 4);
     ctx.stroke();
     ctx.fillStyle = theme('--muted', '#5b6f8d');
-    ctx.font = canvasFont(11, 500);
-    ctx.fillText(item.label, x + 30, y);
-    x += 42 + ctx.measureText(item.label).width;
+    ctx.fillText(label, x + 29, y);
+    x += itemWidth;
   });
+  ctx.lineCap = 'butt';
+  return y;
 }
 
 function drawAxisTicks(ctx, plot, xDomain, yDomain, xTickLabels = null) {
   const muted = theme('--muted', '#5b6f8d');
   ctx.fillStyle = muted;
-  ctx.font = canvasFont(10, 500);
+  ctx.font = canvasFont(10.5, 550);
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
   for (let index = 0; index <= 4; index += 1) {
@@ -204,6 +323,27 @@ function drawAxisTicks(ctx, plot, xDomain, yDomain, xTickLabels = null) {
   }
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
+}
+
+function drawZeroGuides(ctx, plot, xDomain, yDomain, xFor, yFor, { vertical = false, horizontal = true } = {}) {
+  ctx.save();
+  ctx.strokeStyle = theme('--chart-zero', 'rgba(15, 35, 62, 0.46)');
+  ctx.lineWidth = 1.35;
+  if (horizontal && yDomain.min <= 0 && yDomain.max >= 0) {
+    const y = yFor(0);
+    ctx.beginPath();
+    ctx.moveTo(plot.left, y);
+    ctx.lineTo(plot.right, y);
+    ctx.stroke();
+  }
+  if (vertical && xDomain.min <= 0 && xDomain.max >= 0) {
+    const x = xFor(0);
+    ctx.beginPath();
+    ctx.moveTo(x, plot.top);
+    ctx.lineTo(x, plot.bottom);
+    ctx.stroke();
+  }
+  ctx.restore();
 }
 
 function drawLineMarker(ctx, plot, config, marker, xFor, yFor) {
@@ -259,7 +399,10 @@ export function drawLineChart(canvasId, config, hoverState = { index: null }) {
     return;
   }
   const { ctx, width, height } = prepared;
-  const plot = drawFrame(ctx, width, height, config);
+  const legendItems = config.showLegend === false || (config.showLegend !== true && config.series.length < 2)
+    ? []
+    : config.series;
+  const plot = drawFrame(ctx, width, height, { ...config, legendItems });
   const maxLength = Math.max(...config.series.map((item) => item.values.length));
   let yDomain = config.yDomain ?? finiteDomain(config.series.map((item) => item.values), 0.16);
   if (config.includeZero || config.forceZeroLine) {
@@ -279,20 +422,20 @@ export function drawLineChart(canvasId, config, hoverState = { index: null }) {
   });
 
   drawAxisTicks(ctx, plot, { min: 0, max: maxLength - 1 }, yDomain, xLabels);
-  drawLegend(ctx, config.series, plot);
 
   if ((config.forceZeroLine || yDomain.min < 0) && yDomain.min <= 0 && yDomain.max >= 0) {
-    const zeroY = yFor(0);
-    ctx.strokeStyle = rgba(theme('--text', '#11233d'), 0.22);
-    ctx.beginPath();
-    ctx.moveTo(plot.left, zeroY);
-    ctx.lineTo(plot.right, zeroY);
-    ctx.stroke();
+    drawZeroGuides(ctx, plot, { min: 0, max: maxLength - 1 }, yDomain, xFor, yFor);
   }
 
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
+  ctx.clip();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
   config.series.forEach((item) => {
     ctx.strokeStyle = item.color;
-    ctx.lineWidth = item.width ?? 2;
+    ctx.lineWidth = item.width ?? 2.35;
     ctx.setLineDash(item.dash ?? []);
     ctx.beginPath();
     let started = false;
@@ -313,6 +456,7 @@ export function drawLineChart(canvasId, config, hoverState = { index: null }) {
     ctx.stroke();
     ctx.setLineDash([]);
   });
+  ctx.restore();
 
   const markers = [
     ...(config.markers ?? []),
@@ -387,13 +531,19 @@ export function drawScatterChart(canvasId, config, hoverState = { index: null })
   const yFor = (value) => plot.bottom - ((value - yDomain.min) / (yDomain.max - yDomain.min)) * (plot.bottom - plot.top);
 
   drawAxisTicks(ctx, plot, xDomain, yDomain);
+  drawZeroGuides(ctx, plot, xDomain, yDomain, xFor, yFor, { vertical: true, horizontal: true });
 
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
+  ctx.clip();
   config.points.forEach((point, index) => {
     ctx.fillStyle = point.color ?? config.pointColor ?? rgba(theme('--text', '#11233d'), 0.32);
     ctx.beginPath();
-    ctx.arc(xFor(point.x), yFor(point.y), index === hoverState.index ? 5 : config.radius ?? 2.1, 0, Math.PI * 2);
+    ctx.arc(xFor(point.x), yFor(point.y), index === hoverState.index ? 5.2 : config.radius ?? 2.35, 0, Math.PI * 2);
     ctx.fill();
   });
+  ctx.restore();
 
   const tooltip = makeTooltip(canvas);
   if (hoverState.index !== null) {
@@ -441,6 +591,63 @@ export function drawScatterChart(canvasId, config, hoverState = { index: null })
   });
 }
 
+function quantile(values, probability) {
+  const clean = values.filter((value) => Number.isFinite(value)).sort((a, b) => a - b);
+  if (clean.length === 0) {
+    return null;
+  }
+  const position = (clean.length - 1) * probability;
+  const lower = Math.floor(position);
+  const upper = Math.ceil(position);
+  if (lower === upper) {
+    return clean[lower];
+  }
+  const weight = position - lower;
+  return clean[lower] * (1 - weight) + clean[upper] * weight;
+}
+
+function summarizeSeries(items, horizons) {
+  if (items.length < 2) {
+    return null;
+  }
+  const summary = {
+    min: [],
+    low: [],
+    median: [],
+    high: [],
+    max: [],
+  };
+  for (let horizon = 0; horizon < horizons; horizon += 1) {
+    const values = items.map((item) => item.series?.[horizon]).filter((value) => Number.isFinite(value));
+    summary.min.push(quantile(values, 0));
+    summary.low.push(quantile(values, 0.1));
+    summary.median.push(quantile(values, 0.5));
+    summary.high.push(quantile(values, 0.9));
+    summary.max.push(quantile(values, 1));
+  }
+  return summary;
+}
+
+function drawRibbon(ctx, lower, upper, xFor, yFor, fill) {
+  if (!lower?.length || !upper?.length) {
+    return;
+  }
+  ctx.fillStyle = fill;
+  ctx.beginPath();
+  upper.forEach((value, index) => {
+    if (index === 0) {
+      ctx.moveTo(xFor(index), yFor(value));
+    } else {
+      ctx.lineTo(xFor(index), yFor(value));
+    }
+  });
+  for (let index = lower.length - 1; index >= 0; index -= 1) {
+    ctx.lineTo(xFor(index), yFor(lower[index]));
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
 export function drawIrfCloud(canvasId, spec, config) {
   const canvas = document.getElementById(canvasId);
   const prepared = setupCanvas(canvas);
@@ -461,9 +668,14 @@ export function drawIrfCloud(canvasId, spec, config) {
   const yFor = (value) => plot.bottom - ((value - domain.min) / (domain.max - domain.min)) * (plot.bottom - plot.top);
   drawAxisTicks(ctx, plot, { min: 0, max: spec.horizons - 1 }, domain, ['0', '6', '12', '18', String(spec.horizons - 1)]);
 
-  const drawSeries = (series, stroke, width = 1) => {
+  const drawSeries = (series, stroke, width = 1, alpha = 1, dash = []) => {
+    ctx.save();
     ctx.strokeStyle = stroke;
     ctx.lineWidth = width;
+    ctx.globalAlpha = alpha;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.setLineDash(dash);
     ctx.beginPath();
     series.forEach((value, index) => {
       const x = xFor(index);
@@ -475,10 +687,62 @@ export function drawIrfCloud(canvasId, spec, config) {
       }
     });
     ctx.stroke();
+    ctx.restore();
   };
 
-  (config.baseline ?? []).forEach((item) => drawSeries(item.series, item.color, item.width ?? 0.8));
-  (config.highlight ?? []).forEach((item) => drawSeries(item.series, item.color, item.width ?? 3));
+  const baselines = (config.baseline ?? [])
+    .filter((item) => item.active !== false && Array.isArray(item.series));
+  const summary = summarizeSeries(baselines, spec.horizons);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
+  ctx.clip();
+
+  if (summary) {
+    const band = theme('--chart-band', '#0ea5e9');
+    drawRibbon(ctx, summary.min, summary.max, xFor, yFor, rgba(band, 0.07));
+    drawRibbon(ctx, summary.low, summary.high, xFor, yFor, rgba(band, 0.16));
+  }
+
+  const maxSampleLines = 18;
+  const step = Math.max(1, Math.ceil(baselines.length / maxSampleLines));
+  baselines
+    .filter((_, index) => index % step === 0 || index === baselines.length - 1)
+    .forEach((item) => drawSeries(item.series, item.color, Math.min(item.width ?? 0.8, 0.85), 0.28));
+
+  if (summary) {
+    drawSeries(
+      summary.median,
+      theme('--chart-cloud-median', '#607995'),
+      1.45,
+      0.9,
+      [5, 4]
+    );
+  }
+
+  drawZeroGuides(ctx, plot, { min: 0, max: spec.horizons - 1 }, domain, xFor, yFor);
+
+  (config.highlight ?? []).forEach((item) => {
+    const width = item.width ?? 3;
+    drawSeries(item.series, '#ffffff', width + 2.6, 0.92);
+    drawSeries(item.series, item.color, width, 1);
+  });
+  ctx.restore();
+
+  (config.highlight ?? []).forEach((item) => {
+    const initial = item.series?.[0];
+    if (!Number.isFinite(initial)) {
+      return;
+    }
+    ctx.fillStyle = item.color;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(xFor(0), yFor(initial), 4.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+  });
 
   const tooltip = makeTooltip(canvas);
   if (hoverState.index !== null && hoverState.index >= 0 && hoverState.index < spec.horizons) {
@@ -497,11 +761,14 @@ export function drawIrfCloud(canvasId, spec, config) {
       ctx.fill();
       return `<span><i style="background:${item.color}"></i>${item.label ?? `series ${seriesIndex + 1}`}: <strong>${formatTick(item.series[hoverState.index])}</strong></span>`;
     }).join('');
+    const envelopeRow = summary
+      ? `<span><i style="background:${theme('--chart-band', '#0ea5e9')}"></i>Central 80%: <strong>${formatTick(summary.low[hoverState.index])} to ${formatTick(summary.high[hoverState.index])}</strong></span>`
+      : '';
 
     if (tooltip) {
-      tooltip.innerHTML = `<strong>Horizon ${hoverState.index}</strong>${rows}`;
+      tooltip.innerHTML = `<strong>Horizon ${hoverState.index}</strong>${rows}${envelopeRow}`;
       tooltip.style.left = `${Math.min(x + 12, width - 190)}px`;
-      tooltip.style.top = `${Math.max(plot.top + 6, plot.bottom - 78)}px`;
+      tooltip.style.top = `${Math.max(plot.top + 6, plot.bottom - (summary ? 104 : 78))}px`;
       tooltip.classList.add('is-visible');
     }
   } else if (tooltip) {
@@ -533,6 +800,9 @@ export function drawObjectiveChart(canvasId, config, hoverState = { index: null 
   }
   const { ctx, width } = prepared;
   const yDomain = finiteDomain(config.values, 0.12);
+  if (Number.isFinite(config.min) && config.min >= 0) {
+    yDomain.min = 0;
+  }
   const plot = drawFrame(ctx, prepared.width, prepared.height, {
     title: config.title,
     subtitle: config.subtitle,
@@ -546,15 +816,30 @@ export function drawObjectiveChart(canvasId, config, hoverState = { index: null 
     return config.labels?.[idx] ?? String(idx);
   });
   drawAxisTicks(ctx, plot, { min: 0, max: config.values.length - 1 }, yDomain, xLabels);
+  drawZeroGuides(
+    ctx,
+    plot,
+    { min: 0, max: config.values.length - 1 },
+    yDomain,
+    xFor,
+    yFor
+  );
 
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
+  ctx.clip();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
   for (let index = 0; index < config.values.length - 1; index += 1) {
     ctx.strokeStyle = objectiveColor(config.values[index], config.min, config.max, config.accepted?.[index]);
-    ctx.lineWidth = 2.2;
+    ctx.lineWidth = 2.55;
     ctx.beginPath();
     ctx.moveTo(xFor(index), yFor(config.values[index]));
     ctx.lineTo(xFor(index + 1), yFor(config.values[index + 1]));
     ctx.stroke();
   }
+  ctx.restore();
 
   if (Number.isInteger(config.currentIndex)) {
     const x = xFor(config.currentIndex);
@@ -568,8 +853,9 @@ export function drawObjectiveChart(canvasId, config, hoverState = { index: null 
     ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle = theme('--accent-warm', '#f97316');
-    ctx.font = '700 11px sans-serif';
-    ctx.fillText(config.currentLabel ?? 'current rotation', Math.min(x + 6, plot.right - 92), plot.top + 13);
+    ctx.font = canvasFont(10.5, 800);
+    ctx.textAlign = x > plot.left + (plot.right - plot.left) * 0.72 ? 'right' : 'left';
+    ctx.fillText(config.currentLabel ?? 'current rotation', x + (ctx.textAlign === 'right' ? -6 : 6), plot.top + 14);
     ctx.restore();
   }
 
@@ -581,13 +867,22 @@ export function drawObjectiveChart(canvasId, config, hoverState = { index: null 
   markers.forEach((marker) => {
     const x = xFor(marker.index);
     const y = yFor(config.values[marker.index]);
+    const sameSelection = config.selectedIndex === config.currentIndex;
+    const radius = marker.label === 'current' && sameSelection ? 4.6 : 6;
     ctx.fillStyle = marker.color;
     ctx.beginPath();
-    ctx.arc(x, y, 5.5, 0, Math.PI * 2);
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 2;
     ctx.stroke();
+    if (marker.label === 'selected' && sameSelection) {
+      ctx.strokeStyle = marker.color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.stroke();
+    }
   });
 
   const tooltip = makeTooltip(canvas);

@@ -1,7 +1,7 @@
 import { bootPage } from './bootstrap.js';
-import { methodList } from './data-utils.js';
+import { methodList } from './data-utils.js?v=20260831-figure-system2';
 import { applyAtlasFeatureVisibility, isAtlasFeatureEnabled } from './feature-flags.js?v=20260715-matlab-flag1';
-import { renderSingleMethodPage, redrawInitializedMethodCards } from './method-cards.js?v=20260719-source-gate2';
+import { renderSingleMethodPage, redrawInitializedMethodCards } from './method-cards.js?v=20260831-figure-system2';
 import { methodLiteratureHtml, methodReadingGuideHtml } from './methods/detail-panel.js?v=20260719-source-gate2';
 import methodContentById from './methods/index.js?v=20260719-source-gate2';
 import { renderAtlasNextCard, renderAtlasTimeline } from './timeline.js?v=20260715-editorial-layout1';

@@ -2,9 +2,9 @@ import './overview-research.js?v=20260719-source-gate2';
 import { bootPage } from './bootstrap.js';
 import { setupData } from './data/identification-atlas-data.js';
 import { applyAtlasFeatureVisibility, isAtlasFeatureEnabled } from './feature-flags.js?v=20260715-matlab-flag1';
-import { createAtlasLoader } from './loader.js';
-import { renderMethodLinks } from './method-cards.js?v=20260715-reading-system2';
-import { initSetup, redrawSetup } from './setup.js?v=20260715-reading-system2';
+import { createAtlasLoader } from './loader.js?v=20260831-figure-system2';
+import { renderMethodLinks } from './method-cards.js?v=20260831-figure-system2';
+import { initSetup, redrawSetup } from './setup.js?v=20260831-figure-system2';
 import { renderAtlasNextCard, renderAtlasTimeline } from './timeline.js?v=20260715-editorial-layout1';
 
 const skipLoader = new URLSearchParams(window.location.search).has('skipLoader');
