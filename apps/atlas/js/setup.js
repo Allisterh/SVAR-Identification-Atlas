@@ -1,8 +1,8 @@
 import { createRotationControl } from './controls.js';
 import { candidates, setupData } from './data/identification-atlas-data.js';
-import { IRF_SPECS, irfDomains, irfSpecWithMeta, methodTableRows } from './data-utils.js?v=20260831-figure-system2';
+import { IRF_SPECS, irfDomains, irfSpecWithMeta, methodTableRows } from './data-utils.js?v=20260831-figure-system3';
 import { matrixHtml } from './formulas.js?v=20260715-reading-system2';
-import { drawIrfCloud, drawLineChart, drawScatterChart, rgba, theme, zScores } from './plotting.js?v=20260831-figure-system2';
+import { drawIrfCloud, drawLineChart, drawScatterChart, rgba, theme, zScores } from './plotting.js?v=20260831-figure-system3';
 
 const setupState = {
   rotationIndex: 0,
@@ -267,7 +267,7 @@ function drawRotationCharts() {
   }).forEach(([key, canvasId]) => {
     drawIrfCloud(canvasId, specByKey[key], {
       yDomain: irfDomains[key],
-      subtitle: 'Full range, central 80%, and median. Orange: active candidate.',
+      subtitle: 'Pale lines: all admissible rotations. Orange: active candidate.',
       baseline: candidates.map((candidate) => ({
         series: candidate.irfs[key],
         color: rgba(theme('--text', '#11233d'), 0.08),

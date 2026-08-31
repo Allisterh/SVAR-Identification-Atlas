@@ -8,7 +8,7 @@ import {
   methodList,
   selectedHighlight,
   selectedOrAcceptedIndex,
-} from './data-utils.js?v=20260831-figure-system2';
+} from './data-utils.js?v=20260831-figure-system3';
 import { matrixHtml, mathHtml } from './formulas.js?v=20260719-source-gate2';
 import {
   drawIrfCloud,
@@ -18,7 +18,7 @@ import {
   rgba,
   theme,
   zScores,
-} from './plotting.js?v=20260831-figure-system2';
+} from './plotting.js?v=20260831-figure-system3';
 import methodContentById from './methods/index.js?v=20260719-source-gate2';
 import { renderMethodCardShell } from './methods/card-shell.js?v=20260719-source-gate2';
 
@@ -452,9 +452,9 @@ function drawMethod(method) {
     drawIrfCloud(canvasId(method.id, spec.canvasSuffix), fullSpec, {
       yDomain: irfDomains[spec.key],
       subtitle: state.mode === 'all'
-        ? 'Full range, central 80%, and median; selected and current paths highlighted.'
+        ? 'Rotation colors mirror the criterion plot; selected and current paths highlighted.'
         : method.selectionMode === 'set'
-          ? 'Accepted set; selected and current paths highlighted.'
+          ? 'Accepted rotations only; selected and current paths highlighted.'
           : 'Chosen candidate and current comparison.',
       baseline: allIrfBaseline(method.id, state.mode).map((item) => ({
         series: item.candidate.irfs[spec.key],

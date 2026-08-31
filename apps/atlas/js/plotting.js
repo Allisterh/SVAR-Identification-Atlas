@@ -591,63 +591,6 @@ export function drawScatterChart(canvasId, config, hoverState = { index: null })
   });
 }
 
-function quantile(values, probability) {
-  const clean = values.filter((value) => Number.isFinite(value)).sort((a, b) => a - b);
-  if (clean.length === 0) {
-    return null;
-  }
-  const position = (clean.length - 1) * probability;
-  const lower = Math.floor(position);
-  const upper = Math.ceil(position);
-  if (lower === upper) {
-    return clean[lower];
-  }
-  const weight = position - lower;
-  return clean[lower] * (1 - weight) + clean[upper] * weight;
-}
-
-function summarizeSeries(items, horizons) {
-  if (items.length < 2) {
-    return null;
-  }
-  const summary = {
-    min: [],
-    low: [],
-    median: [],
-    high: [],
-    max: [],
-  };
-  for (let horizon = 0; horizon < horizons; horizon += 1) {
-    const values = items.map((item) => item.series?.[horizon]).filter((value) => Number.isFinite(value));
-    summary.min.push(quantile(values, 0));
-    summary.low.push(quantile(values, 0.1));
-    summary.median.push(quantile(values, 0.5));
-    summary.high.push(quantile(values, 0.9));
-    summary.max.push(quantile(values, 1));
-  }
-  return summary;
-}
-
-function drawRibbon(ctx, lower, upper, xFor, yFor, fill) {
-  if (!lower?.length || !upper?.length) {
-    return;
-  }
-  ctx.fillStyle = fill;
-  ctx.beginPath();
-  upper.forEach((value, index) => {
-    if (index === 0) {
-      ctx.moveTo(xFor(index), yFor(value));
-    } else {
-      ctx.lineTo(xFor(index), yFor(value));
-    }
-  });
-  for (let index = lower.length - 1; index >= 0; index -= 1) {
-    ctx.lineTo(xFor(index), yFor(lower[index]));
-  }
-  ctx.closePath();
-  ctx.fill();
-}
-
 export function drawIrfCloud(canvasId, spec, config) {
   const canvas = document.getElementById(canvasId);
   const prepared = setupCanvas(canvas);
@@ -692,34 +635,17 @@ export function drawIrfCloud(canvasId, spec, config) {
 
   const baselines = (config.baseline ?? [])
     .filter((item) => item.active !== false && Array.isArray(item.series));
-  const summary = summarizeSeries(baselines, spec.horizons);
 
   ctx.save();
   ctx.beginPath();
   ctx.rect(plot.left, plot.top, plot.right - plot.left, plot.bottom - plot.top);
   ctx.clip();
 
-  if (summary) {
-    const band = theme('--chart-band', '#0ea5e9');
-    drawRibbon(ctx, summary.min, summary.max, xFor, yFor, rgba(band, 0.07));
-    drawRibbon(ctx, summary.low, summary.high, xFor, yFor, rgba(band, 0.16));
-  }
-
-  const maxSampleLines = 18;
-  const step = Math.max(1, Math.ceil(baselines.length / maxSampleLines));
-  baselines
-    .filter((_, index) => index % step === 0 || index === baselines.length - 1)
-    .forEach((item) => drawSeries(item.series, item.color, Math.min(item.width ?? 0.8, 0.85), 0.28));
-
-  if (summary) {
-    drawSeries(
-      summary.median,
-      theme('--chart-cloud-median', '#607995'),
-      1.45,
-      0.9,
-      [5, 4]
-    );
-  }
+  // Keep every rotation tied to the exact color used in the criterion plot.
+  // A single aggregate ribbon would erase the accept/reject or loss-gradient encoding.
+  baselines.forEach((item) => {
+    drawSeries(item.series, item.color, item.width ?? 0.8, item.alpha ?? 1, item.dash ?? []);
+  });
 
   drawZeroGuides(ctx, plot, { min: 0, max: spec.horizons - 1 }, domain, xFor, yFor);
 
@@ -761,14 +687,10 @@ export function drawIrfCloud(canvasId, spec, config) {
       ctx.fill();
       return `<span><i style="background:${item.color}"></i>${item.label ?? `series ${seriesIndex + 1}`}: <strong>${formatTick(item.series[hoverState.index])}</strong></span>`;
     }).join('');
-    const envelopeRow = summary
-      ? `<span><i style="background:${theme('--chart-band', '#0ea5e9')}"></i>Central 80%: <strong>${formatTick(summary.low[hoverState.index])} to ${formatTick(summary.high[hoverState.index])}</strong></span>`
-      : '';
-
     if (tooltip) {
-      tooltip.innerHTML = `<strong>Horizon ${hoverState.index}</strong>${rows}${envelopeRow}`;
+      tooltip.innerHTML = `<strong>Horizon ${hoverState.index}</strong>${rows}`;
       tooltip.style.left = `${Math.min(x + 12, width - 190)}px`;
-      tooltip.style.top = `${Math.max(plot.top + 6, plot.bottom - (summary ? 104 : 78))}px`;
+      tooltip.style.top = `${Math.max(plot.top + 6, plot.bottom - 78)}px`;
       tooltip.classList.add('is-visible');
     }
   } else if (tooltip) {

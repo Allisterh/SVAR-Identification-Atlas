@@ -1,5 +1,5 @@
 import { candidates, methodObjectives, methods, runMeta } from './data/identification-atlas-data.js';
-import { finiteDomain, objectiveColor, rgba, theme } from './plotting.js?v=20260831-figure-system2';
+import { finiteDomain, objectiveColor, rgba, theme } from './plotting.js?v=20260831-figure-system3';
 
 export const METHOD_IDS = [
   'recursive',
